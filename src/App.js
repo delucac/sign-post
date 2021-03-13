@@ -5,6 +5,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import logo from './logo.svg';
 import Home from "./components/Home";
+
+import Profile from "./components/Profile";
+
+import Places from "./components/Place";
+import PlaceCreate from "./components/PlacesFunctions/Place-Create";
+import PlaceSearch from "./components/PlacesFunctions/Place-Create";
+
 import Legal from "./components/Legal";
 import Privacy from "./components/LegalPolicies/Legal-Privacy";
 import Community from "./components/LegalPolicies/Legal-CommunityGuidelines";
@@ -27,10 +34,10 @@ class App extends Component {
                   <Link to="/" className="nav-link">Home</Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/Profile" className="nav-link">Profile</Link>
+                  <Link to="/Profiles" className="nav-link">Profile</Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/search" className="nav-link">Places</Link>
+                  <Link to="/Places" className="nav-link">Places</Link>
                 </li>
                 <li className="navbar-item">
                   <Link to="/Legal" className="nav-link">Legal</Link>
@@ -39,11 +46,19 @@ class App extends Component {
             </div>
           </nav>
           <Route path="/" exact component={Home}/>
+
+          <Route path="/Profiles" component={Profile}/>
+
+          <Route path="/Places" component={Places}/>
+          <Route path="/Places/Create" component={PlaceCreate}/>
+          <Route path="/Places/Search" component={PlaceSearch}/>
+
           <Route path="/Legal" component={Legal}/>
           <Route path="/Legal/Privacy" component={Privacy}/>
           <Route path="/Legal/CommunityGuidelines" component={Community}/>
           <Route path="/Legal/3rdParty" component={ThirdParty}/>
           <Route path="/Legal/About" component={About}/>
+
         </div>
       </Router>
     );
