@@ -13,6 +13,8 @@ Backend files are in a separate [repository](https://github.com/delucac/SignPost
 5. Type the following command to install dependencies: npm install
 6. After everything installs type the following command to start the frontend: npm start
 
+testing
+
 # Credits
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
