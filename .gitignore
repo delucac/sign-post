@@ -7,6 +7,9 @@
 
 # testing
 /coverage
+/dist/
+/data/
+npm-debug.log
 
 # production
 /build
