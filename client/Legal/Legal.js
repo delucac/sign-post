@@ -52,7 +52,7 @@ export default function Home({history}){
                   Policies
                   <ul>
                     <li><a href="#Privacy">Privacy Policy</a></li>
-                    <li><a href="#Terms">Terms of Use</a></li>
+                    <li><a href="#Terms">Terms of Service</a></li>
                     <li><a href="#3rdParty">3rd Party Resources</a></li>
                     <li><a href="#About">About</a></li>
                   </ul>
@@ -71,7 +71,24 @@ export default function Home({history}){
                   <hr/>
                   <h2 id="UA">User Accounts</h2>
                   <div>
-                    TODO
+                    The following account data is accessible by users on this website.
+                    <ul>
+                      <li>The name you provided</li>
+                      <li>Account creation date</li>
+                      <li>Users who follow you</li>
+                      <li>Users who you follow</li>
+                      <li>Your public posts</li>
+                    </ul>
+                    The following account data can potentially be viewed by admins for the purpose of enforcing our Terms of Service Policy. The following account data may also be viewed by developers for the purpose of testing and database management.
+                    <ul>
+                      <li>Data already accessible by users on this website</li>
+                      <li>Email address provided</li>
+                      <li>Hashed password (we do not store your passwords in readable forms)</li>
+                      <li>Account creation time</li>
+                    </ul>
+                    <ul>
+
+                    </ul>
                   </div>
                   <hr/>
                   <h2 id="LD">Location Data</h2>
@@ -102,10 +119,25 @@ export default function Home({history}){
                 </Typography>
                 <hr/>
                 <Typography type="body1" component="p" className={classes.title} id="Terms">
-                  Terms Of Use
+                  Terms Of Service
                 </Typography>
                 <Typography>
-                  By creating an account on this service, you agree to us
+                  By creating an account on this service, you agree to these Terms of Service. This agreement provides standards for how we may act on your data, and how you may utilize our website.
+                  <br/>
+                  <h5>How we utilize your data.</h5>
+                  <div>
+                    test
+                  </div>
+                  <br/>
+                  <h5>How you may utilize our services.</h5>
+                  <div>
+                    test
+                  </div>
+                  <br/>
+                  <h5>Termination Policy</h5>
+                  <div>
+                    test
+                  </div>
                 </Typography>
                 <hr/>
                 <Typography type="body1" component="p" className={classes.title} id="3rdParty">

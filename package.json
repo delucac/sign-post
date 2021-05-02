@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/delucac/sign-post.git"
+    "url": "git+https://github.com/delucac/sign-post.git"
   },
   "homepage": "https://web.cs.sunyit.edu/~delucac/CS498/index.html",
   "main": "./dist/server.generated.js",
@@ -46,7 +46,7 @@
     "cookie-parser": "1.4.5",
     "cors": "2.8.5",
     "express": "4.17.1",
-    "express-jwt": "5.3.1",
+    "express-jwt": "^5.3.1",
     "formidable": "1.2.2",
     "helmet": "3.22.0",
     "jsonwebtoken": "8.5.1",
@@ -57,5 +57,10 @@
     "react-hot-loader": "4.12.20",
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2"
-  }
+  },
+  "description": "This project is intended as a submission of a capstone.",
+  "bugs": {
+    "url": "https://github.com/delucac/sign-post/issues"
+  },
+  "license": "MIT"
 }
