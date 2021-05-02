@@ -35,6 +35,10 @@ const Menu = withRouter(({history}) => (
             <Button style={isActive(history, "/signin")}>Sign In
             </Button>
           </Link>
+          <Link to="/legal">
+              <Button style={isActive(history, "/legal")}>Legal
+              </Button>
+          </Link>
         </span>)
             }
             {
@@ -53,12 +57,12 @@ const Menu = withRouter(({history}) => (
                         <Button style={isActive(history, "/Events")}>Events
                         </Button>
                     </Link>
+                    <Link to="/legal">
+                        <Button style={isActive(history, "/legal")}>Legal
+                        </Button>
+                    </Link>
         </span>)
             }
-            <Link to="/legal">
-                <Button style={isActive(history, "/legal")}>Legal
-                </Button>
-            </Link>
         </Toolbar>
     </AppBar>
 ))
