@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Icon from '@material-ui/core/Icon'
 import PropTypes from 'prop-types'
 import {makeStyles} from '@material-ui/core/styles'
-import {comment, uncomment} from './api-post.js'
+import {review, unreview} from './api-place.js'
 import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
@@ -18,74 +18,74 @@ const useStyles = makeStyles(theme => ({
     width: 25,
     height: 25
   },
-  commentField: {
+  reviewField: {
     width: '96%'
   },
-  commentText: {
+  reviewText: {
     backgroundColor: 'white',
     padding: theme.spacing(1),
     margin: `2px ${theme.spacing(2)}px 2px 2px`
   },
-  commentDate: {
+  reviewDate: {
     display: 'block',
     color: 'gray',
     fontSize: '0.8em'
  },
- commentDelete: {
+ reviewDelete: {
    fontSize: '1.6em',
    verticalAlign: 'middle',
    cursor: 'pointer'
  }
 }))
 
-export default function Comments (props) {
+export default function Reviews (props) {
   const classes = useStyles()
   const [text, setText] = useState('')
   const jwt = auth.isAuthenticated()
   const handleChange = event => {
     setText(event.target.value)
   }
-  const addComment = (event) => {
+  const addReview = (event) => {
     if(event.keyCode == 13 && event.target.value){
       event.preventDefault()
-      comment({
+      review({
         userId: jwt.user._id
       }, {
         t: jwt.token
-      }, props.postId, {text: text}).then((data) => {
+      }, props.placeId, {text: text}).then((data) => {
         if (data.error) {
           console.log(data.error)
         } else {
           setText('')
-          props.updateComments(data.comments)
+          props.updateReviews(data.reviews)
         }
       })
     }
   }
 
-  const deleteComment = comment => event => {
-    uncomment({
+  const deleteReview = review => event => {
+    unreview({
       userId: jwt.user._id
     }, {
       t: jwt.token
-    }, props.postId, comment).then((data) => {
+    }, props.placeId, review).then((data) => {
       if (data.error) {
         console.log(data.error)
       } else {
-        props.updateComments(data.comments)
+        props.updateReviews(data.reviews)
       }
     })
   }
 
-    const commentBody = item => {
+    const reviewBody = item => {
       return (
-        <p className={classes.commentText}>
+        <p className={classes.reviewText}>
           <Link to={"/user/" + item.postedBy._id}>{item.postedBy.name}</Link><br/>
           {item.text}
-          <span className={classes.commentDate}>
+          <span className={classes.reviewDate}>
             {(new Date(item.created)).toDateString()} |
             {auth.isAuthenticated().user._id === item.postedBy._id &&
-              <Icon onClick={deleteComment(item)} className={classes.commentDelete}>delete</Icon> }
+              <Icon onClick={deleteReview(item)} className={classes.reviewDelete}>delete</Icon> }
           </span>
         </p>
       )
@@ -97,22 +97,22 @@ export default function Comments (props) {
                 <Avatar className={classes.smallAvatar} src={'/api/users/photo/'+auth.isAuthenticated().user._id}/>
               }
               title={ <TextField
-                onKeyDown={addComment}
+                onKeyDown={addReview}
                 multiline
                 value={text}
                 onChange={handleChange}
                 placeholder="Write something ..."
-                className={classes.commentField}
+                className={classes.reviewField}
                 margin="normal"
                 />}
               className={classes.cardHeader}
         />
-        { props.comments.map((item, i) => {
+        { props.reviews.map((item, i) => {
             return <CardHeader
                       avatar={
                         <Avatar className={classes.smallAvatar} src={'/api/users/photo/'+item.postedBy._id}/>
                       }
-                      title={commentBody(item)}
+                      title={reviewBody(item)}
                       className={classes.cardHeader}
                       key={i}/>
               })
@@ -120,8 +120,8 @@ export default function Comments (props) {
     </div>)
 }
 
-Comments.propTypes = {
+Reviews.propTypes = {
   postId: PropTypes.string.isRequired,
-  comments: PropTypes.array.isRequired,
-  updateComments: PropTypes.func.isRequired
+  reviews: PropTypes.array.isRequired,
+  updateReviews: PropTypes.func.isRequired
 }

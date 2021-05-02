@@ -4,9 +4,9 @@ import Card from '@material-ui/core/Card'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import auth from './../auth/auth-helper'
-import PostList from './PostList'
-import {listNewsFeed} from './api-post.js'
-import NewPost from './NewPost'
+import PlaceList from './PlaceList'
+import {listNewsFeed} from './api-place.js'
+import NewPlace from './NewPlace'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 }))
 export default function Newsfeed () {
   const classes = useStyles()
-  const [posts, setPosts] = useState([])
+  const [places, setPlaces] = useState([])
   const jwt = auth.isAuthenticated()
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function Newsfeed () {
       if (data.error) {
         console.log(data.error)
       } else {
-        setPosts(data)
+        setPlaces(data)
       }
     })
     return function cleanup(){
@@ -49,16 +49,16 @@ export default function Newsfeed () {
 
   }, [])
 
-  const addPost = (post) => {
-    const updatedPosts = [...posts]
-    updatedPosts.unshift(post)
-    setPosts(updatedPosts)
+  const addPlace = (post) => {
+    const updatedPlaces = [...places]
+    updatedPlaces.unshift(place)
+    setPlaces(updatedPlaces)
   }
-  const removePost = (post) => {
-    const updatedPosts = [...posts]
-    const index = updatedPosts.indexOf(post)
-    updatedPosts.splice(index, 1)
-    setPosts(updatedPosts)
+  const removePlace = (place) => {
+    const updatedPlaces = [...places]
+    const index = updatedPlaces.indexOf(place)
+    updatedPlaces.splice(index, 1)
+    setPlaces(updatedPlaces)
   }
 
     return (
@@ -67,9 +67,9 @@ export default function Newsfeed () {
           Newsfeed
         </Typography>
         <Divider/>
-        <NewPost addUpdate={addPost}/>
+        <NewPlace addUpdate={addPlace}/>
         <Divider/>
-        <PostList removeUpdate={removePost} posts={posts}/>
+        <PlaceList removeUpdate={removePlace} places={places}/>
       </Card>
     )
 }

@@ -9,6 +9,7 @@ import Profile from './user/Profile'
 import PrivateRoute from './auth/PrivateRoute'
 import Menu from './core/Menu'
 import Legal from './Legal/Legal'
+import Place from './place/Place'
 
 const MainRouter = () => {
     return (<div>
@@ -21,6 +22,7 @@ const MainRouter = () => {
         <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
         <Route path="/user/:userId" component={Profile}/>
         <Route path="/legal" component={Legal}/>
+        <Route path="/places" component={Place}/>
       </Switch>
     </div>)
 }
