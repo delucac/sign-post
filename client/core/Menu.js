@@ -9,24 +9,24 @@ import auth from './../auth/auth-helper'
 import {Link, withRouter} from 'react-router-dom'
 
 const isActive = (history, path) => {
-  if (history.location.pathname == path)
-    return {color: '#ffa726'}
-  else
-    return {color: '#ffffff'}
+    if (history.location.pathname == path)
+        return {color: '#ffa726'}
+    else
+        return {color: '#ffffff'}
 }
 const Menu = withRouter(({history}) => (
-  <AppBar position="static">
-    <Toolbar>
-      <Typography variant="h6" color="inherit">
-        Sign Post
-      </Typography>
-      <Link to="/">
-        <IconButton aria-label="Home" style={isActive(history, "/")}>
-          <HomeIcon/>
-        </IconButton>
-      </Link>
-      {
-        !auth.isAuthenticated() && (<span>
+    <AppBar position="static">
+        <Toolbar>
+            <Typography variant="h6" color="inherit">
+                Sign Post
+            </Typography>
+            <Link to="/">
+                <IconButton aria-label="Home" style={isActive(history, "/")}>
+                    <HomeIcon/>
+                </IconButton>
+            </Link>
+            {
+                !auth.isAuthenticated() && (<span>
           <Link to="/signup">
             <Button style={isActive(history, "/signup")}>Sign up
             </Button>
@@ -36,23 +36,31 @@ const Menu = withRouter(({history}) => (
             </Button>
           </Link>
         </span>)
-      }
-      {
-        auth.isAuthenticated() && (<span>
+            }
+            {
+                auth.isAuthenticated() && (<span>
           <Link to={"/user/" + auth.isAuthenticated().user._id}>
-            <Button style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>My Profile</Button>
+              <Button style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>My Profile</Button>
           </Link>
-          <Button color="inherit" onClick={() => {
-              auth.clearJWT(() => history.push('/'))
-            }}>Sign out</Button>
+                    <Button color="inherit" onClick={() => {
+                        auth.clearJWT(() => history.push('/'))
+                    }}>Sign out</Button>
+                    <Link to="/Places">
+                        <Button style={isActive(history, "/Places")}>Places
+                        </Button>
+                    </Link>
+                    <Link to="/Events">
+                        <Button style={isActive(history, "/Events")}>Events
+                        </Button>
+                    </Link>
         </span>)
-      }
-      <Link to="/legal">
-          <Button style={isActive(history, "/legal")}>Legal
-          </Button>
-      </Link>
-    </Toolbar>
-  </AppBar>
+            }
+            <Link to="/legal">
+                <Button style={isActive(history, "/legal")}>Legal
+                </Button>
+            </Link>
+        </Toolbar>
+    </AppBar>
 ))
 
 export default Menu

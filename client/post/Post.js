@@ -17,6 +17,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import {Link} from 'react-router-dom'
 import {remove, like, unlike} from './api-post.js'
 import Comments from './Comments'
+import {DeleteForever} from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -107,9 +108,17 @@ export default function Post (props){
             avatar={
               <Avatar src={'/api/users/photo/'+props.post.postedBy._id}/>
             }
+            //Attempt at implementing admin delete
+            /*
+            action={"Admin" === auth.isAuthenticated().account_type &&
+            <IconButton onClick={deletePost}>
+              <DeleteForever/>
+            </IconButton>
+            }
+            */
             action={props.post.postedBy._id === auth.isAuthenticated().user._id &&
               <IconButton onClick={deletePost}>
-                <DeleteIcon />
+                <DeleteIcon/>
               </IconButton>
             }
             title={<Link to={"/user/" + props.post.postedBy._id}>{props.post.postedBy.name}</Link>}
