@@ -29,6 +29,8 @@ router.route('/api/posts/uncomment')
 
 router.route('/api/posts/:postId')
   .delete(authCtrl.requireSignin, postCtrl.isPoster, postCtrl.remove)
+router.route('/api/posts/:postId')
+    .delete(authCtrl.requireSignin, authCtrl.hasAdmin, postCtrl.removeAdmin)
 
 router.param('userId', userCtrl.userByID)
 router.param('postId', postCtrl.postByID)

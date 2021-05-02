@@ -27,11 +27,15 @@ export default function ProfileTabs ( props ){
             <Tab label="Posts" />
             <Tab label="Following" />
             <Tab label="Followers" />
+            <Tab label="Events"/>
+            <Tab label="Places"/>
           </Tabs>
         </AppBar>
        {tab === 0 && <TabContainer><PostList removeUpdate={props.removePostUpdate} posts={props.posts}/></TabContainer>}
        {tab === 1 && <TabContainer><FollowGrid people={props.user.following}/></TabContainer>}
        {tab === 2 && <TabContainer><FollowGrid people={props.user.followers}/></TabContainer>}
+      {tab === 3 && <TabContainer><PostList removeUpdate={props.removePostUpdate} posts={props.posts}/></TabContainer>}
+      {tab === 4 && <TabContainer><PostList removeUpdate={props.removePostUpdate} posts={props.posts}/></TabContainer>}
     </div>)
   
 }

@@ -12,7 +12,7 @@ import postRoutes from './routes/post.routes'
 import placeRoutes from './routes/place.routes'
 //TODO fix tag routes
 //import tagRoutes from './routes/tag.routes'
-//import eventRoutes from './routes/event.routes'
+import eventRoutes from './routes/event.routes'
 
 // modules for server side rendering
 import React from 'react'
@@ -51,7 +51,8 @@ app.use('/', authRoutes)
 app.use('/', postRoutes)
 app.use('/', placeRoutes)
 //app.use('/', tagRoutes)
-//app.use('/', placeRoutes)
+app.use('/', placeRoutes)
+app.use('/', eventRoutes)
 
 app.get('*', (req, res) => {
   const sheets = new ServerStyleSheets()

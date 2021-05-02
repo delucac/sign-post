@@ -1,36 +1,36 @@
 import express from 'express'
 import userCtrl from '../controllers/user.controller'
 import authCtrl from '../controllers/auth.controller'
-import postCtrl from '../controllers/post.controller'
+import eventCtrl from '../controllers/event.controller'
 
 const router = express.Router()
 
-router.route('/api/posts/new/:userId')
-  .post(authCtrl.requireSignin, postCtrl.create)
+router.route('/api/events/new/:userId')
+  .post(authCtrl.requireSignin, eventCtrl.create)
 
-router.route('/api/posts/photo/:postId')
-  .get(postCtrl.photo)
+router.route('/api/events/photo/:eventId')
+  .get(eventCtrl.photo)
 
-router.route('/api/posts/by/:userId')
-  .get(authCtrl.requireSignin, postCtrl.listByUser)
+router.route('/api/events/by/:userId')
+  .get(authCtrl.requireSignin, eventCtrl.listByUser)
 
-router.route('/api/posts/feed/:userId')
-  .get(authCtrl.requireSignin, postCtrl.listNewsFeed)
+router.route('/api/events/feed/:userId')
+  .get(authCtrl.requireSignin, eventCtrl.listNewsFeed)
 
-router.route('/api/posts/like')
-  .put(authCtrl.requireSignin, postCtrl.like)
-router.route('/api/posts/unlike')
-  .put(authCtrl.requireSignin, postCtrl.unlike)
+router.route('/api/events/like')
+  .put(authCtrl.requireSignin, eventCtrl.like)
+router.route('/api/events/unlike')
+  .put(authCtrl.requireSignin, eventCtrl.unlike)
 
-router.route('/api/posts/comment')
-  .put(authCtrl.requireSignin, postCtrl.comment)
-router.route('/api/posts/uncomment')
-  .put(authCtrl.requireSignin, postCtrl.uncomment)
+router.route('/api/events/comment')
+  .put(authCtrl.requireSignin, eventCtrl.comment)
+router.route('/api/events/uncomment')
+  .put(authCtrl.requireSignin, eventCtrl.uncomment)
 
-router.route('/api/posts/:postId')
-  .delete(authCtrl.requireSignin, postCtrl.isPoster, postCtrl.remove)
+router.route('/api/events/:eventId')
+  .delete(authCtrl.requireSignin, eventCtrl.isCreator, eventCtrl.remove)
 
 router.param('userId', userCtrl.userByID)
-router.param('postId', postCtrl.postByID)
+router.param('eventId', eventCtrl.eventByID)
 
 export default router

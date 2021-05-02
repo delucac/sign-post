@@ -63,9 +63,20 @@ const hasAuthorization = (req, res, next) => {
   next()
 }
 
+const hasAdmin = (req, res, next) => {
+  const authorized = req.profile.account_type == "Admin"
+  if (!(authorized)) {
+    return res.status('403').json({
+      error: "User is not authorized"
+    })
+  }
+  next()
+}
+
 export default {
   signin,
   signout,
   requireSignin,
-  hasAuthorization
+  hasAuthorization,
+  hasAdmin
 }

@@ -12,14 +12,14 @@ const create = (req, res, next) => {
         error: "Image could not be uploaded"
       })
     }
-    let post = new Post(fields)
-    post.postedBy= req.profile
+    let event = new Event(fields)
+    event.createdBy = req.profile
     if(files.photo){
       post.photo.data = fs.readFileSync(files.photo.path)
       post.photo.contentType = files.photo.type
     }
     try {
-      let result = await post.save()
+      let result = await event.save()
       res.json(result)
     }catch (err){
       return res.status(400).json({
@@ -29,30 +29,30 @@ const create = (req, res, next) => {
   })
 }
 
-const postByID = async (req, res, next, id) => {
+const eventByID = async (req, res, next, id) => {
   try{
-    let post = await Post.findById(id).populate('postedBy', '_id name').exec()
-    if (!post)
+    let event = await Event.findById(id).populate('createdBy', '_id name').exec()
+    if (!event)
       return res.status('400').json({
-        error: "Post not found"
+        error: "Event not found"
       })
-    req.post = post
+    req.event = event
     next()
   }catch(err){
     return res.status('400').json({
-      error: "Could not retrieve use post"
+      error: "Could not retrieve use event"
     })
   }
 }
 
 const listByUser = async (req, res) => {
   try{
-    let posts = await Post.find({postedBy: req.profile._id})
-                          .populate('comments.postedBy', '_id name')
-                          .populate('postedBy', '_id name')
+    let events = await Event.find({createdBy: req.profile._id})
+                          .populate('comments.createdBy', '_id name')
+                          .populate('createdBy', '_id name')
                           .sort('-created')
                           .exec()
-    res.json(posts)
+    res.json(events)
   }catch(err){
     return res.status(400).json({
       error: errorHandler.getErrorMessage(err)
@@ -64,9 +64,9 @@ const listNewsFeed = async (req, res) => {
   let following = req.profile.following
   following.push(req.profile._id)
   try{
-    let posts = await Post.find({postedBy: { $in : req.profile.following } })
-                          .populate('comments.postedBy', '_id name')
-                          .populate('postedBy', '_id name')
+    let events = await Event.find({createdBy: { $in : req.profile.following } })
+                          .populate('comments.createdBy', '_id name')
+                          .populate('createdBy', '_id name')
                           .sort('-created')
                           .exec()
     res.json(posts)
@@ -78,10 +78,10 @@ const listNewsFeed = async (req, res) => {
 }
 
 const remove = async (req, res) => {
-  let post = req.post
+  let event = req.event
   try{
-    let deletedPost = await post.remove()
-    res.json(deletedPost)
+    let deletedEvent = await event.remove()
+    res.json(deletedEvent)
   }catch(err){
     return res.status(400).json({
       error: errorHandler.getErrorMessage(err)
@@ -90,13 +90,13 @@ const remove = async (req, res) => {
 }
 
 const photo = (req, res, next) => {
-    res.set("Content-Type", req.post.photo.contentType)
-    return res.send(req.post.photo.data)
+    res.set("Content-Type", req.event.photo.contentType)
+    return res.send(req.event.photo.data)
 }
 
 const like = async (req, res) => {
   try{
-    let result = await Post.findByIdAndUpdate(req.body.postId, {$push: {likes: req.body.userId}}, {new: true})
+    let result = await Event.findByIdAndUpdate(req.event.eventId, {$push: {likes: req.body.userId}}, {new: true})
     res.json(result)
   }catch(err){
       return res.status(400).json({
@@ -107,7 +107,7 @@ const like = async (req, res) => {
 
 const unlike = async (req, res) => {
   try{
-    let result = await Post.findByIdAndUpdate(req.body.postId, {$pull: {likes: req.body.userId}}, {new: true})
+    let result = await Event.findByIdAndUpdate(req.event.eventId, {$pull: {likes: req.body.userId}}, {new: true})
     res.json(result)
   }catch(err){
     return res.status(400).json({
@@ -118,11 +118,11 @@ const unlike = async (req, res) => {
 
 const comment = async (req, res) => {
   let comment = req.body.comment
-  comment.postedBy = req.body.userId
+  comment.createdBy = req.body.userId
   try{
-    let result = await Post.findByIdAndUpdate(req.body.postId, {$push: {comments: comment}}, {new: true})
-                            .populate('comments.postedBy', '_id name')
-                            .populate('postedBy', '_id name')
+    let result = await Event.findByIdAndUpdate(req.body.eventId, {$push: {comments: comment}}, {new: true})
+                            .populate('comments.createdBy', '_id name')
+                            .populate('createdBy', '_id name')
                             .exec()
     res.json(result)
   }catch(err){
@@ -134,9 +134,9 @@ const comment = async (req, res) => {
 const uncomment = async (req, res) => {
   let comment = req.body.comment
   try{
-    let result = await Post.findByIdAndUpdate(req.body.postId, {$pull: {comments: {_id: comment._id}}}, {new: true})
-                          .populate('comments.postedBy', '_id name')
-                          .populate('postedBy', '_id name')
+    let result = await Event.findByIdAndUpdate(req.body.eventId, {$pull: {comments: {_id: comment._id}}}, {new: true})
+                          .populate('comments.createdBy', '_id name')
+                          .populate('createdBy', '_id name')
                           .exec()
     res.json(result)
   }catch(err){
@@ -146,9 +146,9 @@ const uncomment = async (req, res) => {
   }
 }
 
-const isPoster = (req, res, next) => {
-  let isPoster = req.post && req.auth && req.post.postedBy._id == req.auth._id
-  if(!isPoster){
+const isCreator = (req, res, next) => {
+  let isCreator = req.event && req.auth && req.post.createdBy._id == req.auth._id
+  if(!isCreator){
     return res.status('403').json({
       error: "User is not authorized"
     })
@@ -160,12 +160,12 @@ export default {
   listByUser,
   listNewsFeed,
   create,
-  postByID,
+  eventByID,
   remove,
   photo,
   like,
   unlike,
   comment,
   uncomment,
-  isPoster
+  isCreator
 }

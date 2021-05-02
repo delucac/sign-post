@@ -89,6 +89,18 @@ const remove = async (req, res) => {
   }
 }
 
+const removeAdmin = async (req, res) => {
+  let post = req.post
+  try{
+    let deletedPost = await post.removeAdmin()
+    res.json(deletedPost)
+  }catch(err){
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
+
 const photo = (req, res, next) => {
     res.set("Content-Type", req.post.photo.contentType)
     return res.send(req.post.photo.data)
@@ -162,6 +174,7 @@ export default {
   create,
   postByID,
   remove,
+  removeAdmin,
   photo,
   like,
   unlike,

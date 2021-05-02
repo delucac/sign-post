@@ -22,6 +22,12 @@ const EventSchema = new mongoose.Schema({
   Date: {
     type: Date
   },
+  comments: [{
+    text: String,
+    created: { type: Date, default: Date.now },
+    createdBy: { type: mongoose.Schema.ObjectId, ref: 'User'}
+  }],
+  likes: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
   tags: [{type: mongoose.Schema.ObjectId, ref: 'Tag'}],
   createdBy: {type: mongoose.Schema.ObjectId, ref: 'User'},
   created: {
