@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 }))
 export default function Newsfeed () {
   const classes = useStyles()
-  const [posts, setPosts] = useState([])
+  const [events, setEvents] = useState([])
   const jwt = auth.isAuthenticated()
 
   useEffect(() => {

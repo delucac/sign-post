@@ -5,7 +5,7 @@ import Event from './Event'
 export default function EventList (props) {
     return (
       <div style={{marginTop: '24px'}}>
-        {props.posts.map((item, i) => {
+        {props.events.map((item, i) => {
             return <Event event={item} key={i} onRemove={props.removeUpdate}/>
           })
         }

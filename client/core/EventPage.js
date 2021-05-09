@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import auth from './../auth/auth-helper'
 import FindPeople from './../user/FindPeople'
-import Newsfeed from './../Event/Newsfeed'
+import Newsfeed from '../event/Newsfeed'
 import Sign from './../assets/images/blank-signpost.png'
 
 const useStyles = makeStyles(theme => ({

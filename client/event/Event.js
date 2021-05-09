@@ -17,7 +17,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import {Link} from 'react-router-dom'
 import {remove, like, unlike} from './api-event.js'
 import Comments from './Comments'
-import {DeleteForever} from "@material-ui/icons";
+import {DeleteForever} from "@material-ui/icons"
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -62,12 +62,13 @@ export default function Event (props){
     likes: props.event.likes.length,
     comments: props.event.comments
   })
-  
+
+
   // useEffect(() => {
   //   setValues({...values, like:checkLike(props.event.likes), likes: props.event.likes.length, comments: props.event.comments})
   // }, [])
 
-  
+
 
   const clickLike = () => {
     let callApi = values.like ? unlike : like
@@ -127,10 +128,15 @@ export default function Event (props){
           />
         <CardContent className={classes.cardContent}>
           <Typography component="p" className={classes.text}>
-            {props.event.name}
+            Name: {props.event.name}
           </Typography>
+          <hr/>
           <Typography component="p" className={classes.text}>
-            {props.event.description}
+            Date: {props.event.date}
+          </Typography>
+          <hr/>
+          <Typography component="p" className={classes.text}>
+            Description:{props.event.description}
           </Typography>
           {props.event.photo &&
             (<div className={classes.photo}>
@@ -157,7 +163,7 @@ export default function Event (props){
         <Comments eventId={props.event._id} comments={values.comments} updateComments={updateComments}/>
       </Card>
     )
-  
+
 }
 
 Event.propTypes = {

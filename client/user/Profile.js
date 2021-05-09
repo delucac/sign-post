@@ -18,6 +18,7 @@ import {Redirect, Link} from 'react-router-dom'
 import FollowProfileButton from './../user/FollowProfileButton'
 import ProfileTabs from './../user/ProfileTabs'
 import {listByUser} from './../post/api-post.js'
+import {listByUserEvent} from './../event/api-event'
 
 const useStyles = makeStyles(theme => ({
   root: theme.mixins.gutters({
@@ -46,6 +47,7 @@ export default function Profile({ match }) {
     following: false
   })
   const [posts, setPosts] = useState([])
+  const [events, setEvents] = useState([])
   const jwt = auth.isAuthenticated()
 
   useEffect(() => {
@@ -61,6 +63,7 @@ export default function Profile({ match }) {
         let following = checkFollow(data)
         setValues({...values, user: data, following: following})
         loadPosts(data._id)
+        loadEvents(data._id)
       }
     })
     return function cleanup(){
@@ -101,11 +104,30 @@ export default function Profile({ match }) {
       }
     })
   }
+  const loadEvents = (user) => {
+    listByUserEvent({
+      userId: user
+    }, {
+      t: jwt.token
+    }).then((data) => {
+      if (data.error) {
+        console.log(data.error)
+      } else {
+        setEvents(data)
+      }
+    })
+  }
   const removePost = (post) => {
     const updatedPosts = posts
     const index = updatedPosts.indexOf(post)
     updatedPosts.splice(index, 1)
     setPosts(updatedPosts)
+  }
+  const removeEvent = (event) => {
+    const updatedEvents = events
+    const index = updatedEvents.indexOf(event)
+    updatedEvents.splice(index, 1)
+    setEvents(updatedEvents)
   }
 
     const photoUrl = values.user._id
@@ -143,7 +165,7 @@ export default function Profile({ match }) {
               new Date(values.user.created)).toDateString()}/>
           </ListItem>
         </List>
-        <ProfileTabs user={values.user} posts={posts} removePostUpdate={removePost}/>
+        <ProfileTabs user={values.user} posts={posts} removePostUpdate={removePost} events={events} removeEventUpdate={removeEvent}/>
       </Paper>
     )
 }

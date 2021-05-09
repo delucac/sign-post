@@ -14,7 +14,7 @@ const create = async (params, credentials, event) => {
   }
 }
 
-const listByUser = async (params, credentials) => {
+const listByUserEvent = async (params, credentials) => {
   try {
     let response = await fetch('/api/events/by/'+ params.userId, {
       method: 'GET',
@@ -49,7 +49,7 @@ const listNewsFeed = async (params, credentials, signal) => {
 
 const remove = async (params, credentials) => {
   try {
-    let response = await fetch('/api/events/' + params.postId, {
+    let response = await fetch('/api/events/' + params.eventId, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
@@ -64,7 +64,7 @@ const remove = async (params, credentials) => {
 }
 
 
-const like = async (params, credentials, postId) => {
+const like = async (params, credentials, eventId) => {
   try {
     let response = await fetch('/api/events/like/', {
       method: 'PUT',
@@ -138,7 +138,7 @@ const uncomment = async (params, credentials, eventId, comment) => {
 
 export {
   listNewsFeed,
-  listByUser,
+  listByUserEvent,
   create,
   remove,
   like,

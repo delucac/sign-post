@@ -14,6 +14,9 @@ import {makeStyles} from '@material-ui/core/styles'
 import {create} from './api-event.js'
 import IconButton from '@material-ui/core/IconButton'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import TableDatePicker from "../DateManagement/DatePicker";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,9 +61,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function NewEvent (props){
   const classes = useStyles()
+  const [Eventdate] = useState(new Date());
   const [values, setValues] = useState({
     name: '',
     description: '',
+    date: '',
     photo: '',
     error: '',
     user: {}
@@ -73,6 +78,7 @@ export default function NewEvent (props){
     let eventData = new FormData()
     eventData.append('name', values.name)
     eventData.append('description', values.description)
+    eventData.append('date', values.date)
     eventData.append('photo', values.photo)
     create({
       userId: jwt.user._id
@@ -82,7 +88,7 @@ export default function NewEvent (props){
       if (data.error) {
         setValues({...values, error: data.error})
       } else {
-        setValues({...values, name:'', description:'', photo: ''})
+        setValues({...values, name:'', description:'', date:'', photo: ''})
         props.addUpdate(data)
       }
     })
@@ -93,6 +99,7 @@ export default function NewEvent (props){
       : event.target.value
     setValues({...values, [name]: value })
     setValues({...values, [description]: value })
+    setValues({...values, [Eventdate]: value})
   }
   const photoURL = values.user._id ?'/api/users/photo/'+ values.user._id : '/api/users/defaultphoto'
     return (<div className={classes.root}>
@@ -123,6 +130,9 @@ export default function NewEvent (props){
             className={classes.textField}
             margin="normal"
         />
+        Date of event:
+        <TableDatePicker/>
+        <br/>
         <input accept="image/*" onChange={handleChange('photo')} className={classes.input} id="icon-button-file" type="file" />
         <label htmlFor="icon-button-file">
           <IconButton color="secondary" className={classes.photoButton} component="span">

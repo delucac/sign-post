@@ -8,7 +8,7 @@ const router = express.Router()
 router.route('/api/events/new/:userId')
   .post(authCtrl.requireSignin, eventCtrl.create)
 
-router.route('/api/events/photo/:postId')
+router.route('/api/events/photo/:eventId')
   .get(eventCtrl.photo)
 
 router.route('/api/events/by/:userId')
