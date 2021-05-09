@@ -11,7 +11,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Icon from '@material-ui/core/Icon'
 import PropTypes from 'prop-types'
 import {makeStyles} from '@material-ui/core/styles'
-import {create} from './api-event.js'
+import {create} from './api-place.js'
 import IconButton from '@material-ui/core/IconButton'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 //import TableDatePicker from "../DateManagement/DatePicker";
@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function NewEvent (props){
+export default function NewPlace (props){
   const classes = useStyles()
   const [date] = useState(new Date());
   const [values, setValues] = useState({
@@ -72,17 +72,17 @@ export default function NewEvent (props){
   useEffect(() => {
     setValues({...values, user: auth.isAuthenticated().user})
   }, [])
-  const clickEvent = () => {
-    let eventData = new FormData()
-    eventData.append('name', values.name)
-    eventData.append('description', values.description)
-    eventData.append('date', values.date)
-    eventData.append('photo', values.photo)
+  const clickPlace = () => {
+    let placeData = new FormData()
+    placeData.append('name', values.name)
+    placeData.append('description', values.description)
+    placeData.append('date', values.date)
+    placeData.append('photo', values.photo)
     create({
       userId: jwt.user._id
     }, {
       t: jwt.token
-    }, eventData).then((data) => {
+    }, placeData).then((data) => {
       if (data.error) {
         setValues({...values, error: data.error})
       } else {
@@ -91,10 +91,10 @@ export default function NewEvent (props){
       }
     })
   }
-  const handleChange = name => event => {
+  const handleChange = name => place => {
     const value = name === 'photo'
-      ? event.target.files[0]
-      : event.target.value
+      ? place.target.files[0]
+      : place.target.value
     setValues({...values, [name]: value })
     setValues({...values, [description]: value })
     setValues({...values, [date]: value})
@@ -111,7 +111,7 @@ export default function NewEvent (props){
           />
       <CardContent className={classes.cardContent}>
         <TextField
-            placeholder="Name your event"
+            placeholder="Name your place"
             multiline
             rows="1"
             value={values.name}
@@ -120,7 +120,7 @@ export default function NewEvent (props){
             margin="normal"
         />
         <TextField
-            placeholder="Tell us about your event..."
+            placeholder="Tell us about your place..."
             multiline
             rows="3"
             value={values.description}
@@ -128,7 +128,7 @@ export default function NewEvent (props){
             className={classes.textField}
             margin="normal"
         />
-        Date of event:
+        Date of place:
         {/*<TableDatePicker/>*/}
         <br/>
         <input accept="image/*" onChange={handleChange('photo')} className={classes.input} id="icon-button-file" type="file" />
@@ -144,14 +144,14 @@ export default function NewEvent (props){
         }
       </CardContent>
       <CardActions>
-        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickEvent} className={classes.submit}>POST EVENT</Button>
+        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPlace} className={classes.submit}>POST EVENT</Button>
       </CardActions>
     </Card>
   </div>)
 
 }
 
-NewEvent.propTypes = {
+NewPlace.propTypes = {
   addUpdate: PropTypes.func.isRequired
 }
 
