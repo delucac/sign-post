@@ -121,7 +121,7 @@ export default function Profile({ match }) {
     })
   }
   const loadPlaces = (user) => {
-    listByUserPlace({
+    listByUser({
       userId: user
     }, {
       t: jwt.token
@@ -190,8 +190,7 @@ export default function Profile({ match }) {
         <ProfileTabs
             user={values.user}
             posts={posts} removePostUpdate={removePost}
-            events={events} removeEventUpdate={removeEvent}
-            places={places} removePlaceUpdate={removePlace}/>
+            events={events} removeEventUpdate={removeEvent}/>
       </Paper>
     )
 }

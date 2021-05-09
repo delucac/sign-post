@@ -28,16 +28,14 @@ export default function ProfileTabs ( props ){
           >
             <Tab label="Posts"/>
             <Tab label="Events"/>
-            <Tab label="Places"/>
             <Tab label="Following"/>
             <Tab label="Followers"/>
           </Tabs>
         </AppBar>
        {tab === 0 && <TabContainer><PostList removeUpdate={props.removePostUpdate} posts={props.posts}/></TabContainer>}
        {tab === 1 && <TabContainer><EventList removeUpdate={props.removeEventUpdate} events={props.events}/></TabContainer>}
-       {tab === 2 && <TabContainer><PlaceList removeUpdate={props.removePlaceUpdate} places={props.places}/></TabContainer>}
-       {tab === 3 && <TabContainer><FollowGrid people={props.user.following}/></TabContainer>}
-       {tab === 4 && <TabContainer><FollowGrid people={props.user.followers}/></TabContainer>}
+       {tab === 2 && <TabContainer><FollowGrid people={props.user.following}/></TabContainer>}
+       {tab === 3 && <TabContainer><FollowGrid people={props.user.followers}/></TabContainer>}
     </div>)
 
 }
@@ -46,10 +44,8 @@ ProfileTabs.propTypes = {
   user: PropTypes.object.isRequired,
   removePostUpdate: PropTypes.func.isRequired,
   removeEventUpdate: PropTypes.func.isRequired,
-  removePlaceUpdate: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
-  events: PropTypes.array.isRequired,
-  places: PropTypes.array.isRequired
+  events: PropTypes.array.isRequired
 }
 
 const TabContainer = (props) => {

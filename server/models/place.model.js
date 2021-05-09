@@ -4,6 +4,10 @@ const PlaceSchema = new mongoose.Schema({
     type: String,
     required: 'Name is required'
   },
+  address: {
+    type: String,
+    required: 'Address is required'
+  },
   description: {
     type: String,
     required: 'description is required'

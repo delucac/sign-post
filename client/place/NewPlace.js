@@ -58,11 +58,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function NewPlace (props){
   const classes = useStyles()
-  const [date] = useState(new Date());
   const [values, setValues] = useState({
     name: '',
     description: '',
-    date: '',
+    address: '',
     photo: '',
     error: '',
     user: {}
@@ -75,7 +74,7 @@ export default function NewPlace (props){
     let placeData = new FormData()
     placeData.append('name', values.name)
     placeData.append('description', values.description)
-    placeData.append('date', values.date)
+    placeData.append('address', values.address)
     placeData.append('photo', values.photo)
     create({
       userId: jwt.user._id
@@ -85,7 +84,7 @@ export default function NewPlace (props){
       if (data.error) {
         setValues({...values, error: data.error})
       } else {
-        setValues({...values, name:'', description:'', date:'', photo: ''})
+        setValues({...values, name:'', description:'', address:'', photo: ''})
         props.addUpdate(data)
       }
     })
@@ -96,7 +95,7 @@ export default function NewPlace (props){
       : place.target.value
     setValues({...values, [name]: value })
     setValues({...values, [description]: value })
-    setValues({...values, [date]: value})
+    setValues({...values, [address]: value})
   }
   const photoURL = values.user._id ?'/api/users/photo/'+ values.user._id : '/api/users/defaultphoto'
     return (<div className={classes.root}>
@@ -115,6 +114,15 @@ export default function NewPlace (props){
             rows="1"
             value={values.name}
             onChange={handleChange('name')}
+            className={classes.textField}
+            margin="normal"
+        />
+        <TextField
+            placeholder="Number Street, City, State Zip "
+            multiline
+            rows="3"
+            value={values.address}
+            onChange={handleChange('address')}
             className={classes.textField}
             margin="normal"
         />

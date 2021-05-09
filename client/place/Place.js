@@ -132,7 +132,7 @@ export default function Place (props){
           </Typography>
           <hr/>
           <Typography component="p" className={classes.text}>
-            Address:
+            Address: {props.place.address}
           </Typography>
           <hr/>
           <Typography component="p" className={classes.text}>
