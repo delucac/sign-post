@@ -11,7 +11,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Icon from '@material-ui/core/Icon'
 import PropTypes from 'prop-types'
 import {makeStyles} from '@material-ui/core/styles'
-import {create} from './api-post.js'
+import {create} from './api-place.js'
 import IconButton from '@material-ui/core/IconButton'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 
@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function NewPost (props){
+export default function NewPlace (props){
   const classes = useStyles()
   const [values, setValues] = useState({
     text: '',
@@ -69,14 +69,14 @@ export default function NewPost (props){
     setValues({...values, user: auth.isAuthenticated().user})
   }, [])
   const clickPost = () => {
-    let postData = new FormData()
-    postData.append('text', values.text)
-    postData.append('photo', values.photo)
+    let placeData = new FormData()
+    placeData.append('text', values.text)
+    placeData.append('photo', values.photo)
     create({
       userId: jwt.user._id
     }, {
       t: jwt.token
-    }, postData).then((data) => {
+    }, placeData).then((data) => {
       if (data.error) {
         setValues({...values, error: data.error})
       } else {
@@ -87,21 +87,20 @@ export default function NewPost (props){
   }
   const handleChange = name => event => {
     const value = name === 'photo'
-        ? event.target.files[0]
-        : event.target.value
+      ? event.target.files[0]
+      : event.target.value
     setValues({...values, [name]: value })
   }
-
   const photoURL = values.user._id ?'/api/users/photo/'+ values.user._id : '/api/users/defaultphoto'
-  return (<div className={classes.root}>
-    <Card className={classes.card}>
+    return (<div className={classes.root}>
+      <Card className={classes.card}>
       <CardHeader
-          avatar={
-            <Avatar src={photoURL}/>
-          }
-          title={values.user.name}
-          className={classes.cardHeader}
-      />
+            avatar={
+              <Avatar src={photoURL}/>
+            }
+            title={values.user.name}
+            className={classes.cardHeader}
+          />
       <CardContent className={classes.cardContent}>
         <TextField
             placeholder="Share your thoughts ..."
@@ -119,9 +118,9 @@ export default function NewPost (props){
           </IconButton>
         </label> <span className={classes.filename}>{values.photo ? values.photo.name : ''}</span>
         { values.error && (<Typography component="p" color="error">
-          <Icon color="error" className={classes.error}>error</Icon>
-          {values.error}
-        </Typography>)
+            <Icon color="error" className={classes.error}>error</Icon>
+              {values.error}
+            </Typography>)
         }
       </CardContent>
       <CardActions>
@@ -132,7 +131,7 @@ export default function NewPost (props){
 
 }
 
-NewPost.propTypes = {
+NewPlace.propTypes = {
   addUpdate: PropTypes.func.isRequired
 }
 

@@ -69,14 +69,14 @@ export default function NewPlace (props){
     setValues({...values, user: auth.isAuthenticated().user})
   }, [])
   const clickPost = () => {
-    let placeData = new FormData()
-    placeData.append('text', values.text)
-    placeData.append('photo', values.photo)
+    let postData = new FormData()
+    postData.append('text', values.text)
+    postData.append('photo', values.photo)
     create({
       userId: jwt.user._id
     }, {
       t: jwt.token
-    }, placeData).then((data) => {
+    }, postData).then((data) => {
       if (data.error) {
         setValues({...values, error: data.error})
       } else {
@@ -131,7 +131,7 @@ export default function NewPlace (props){
 
 }
 
-NewPlace.propTypes = {
+NewPost.propTypes = {
   addUpdate: PropTypes.func.isRequired
 }
 

@@ -10,6 +10,7 @@ import PrivateRoute from './auth/PrivateRoute'
 import Menu from './core/Menu'
 import Legal from './Legal/Legal'
 import Place from './place/Place'
+import Create from './create/create'
 
 const MainRouter = () => {
     return (<div>
@@ -22,7 +23,7 @@ const MainRouter = () => {
         <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
         <Route path="/user/:userId" component={Profile}/>
         <Route path="/legal" component={Legal}/>
-        <Route path="/places" component={Place}/>
+        <Route path="/create" component={Create}/>
       </Switch>
     </div>)
 }

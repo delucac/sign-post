@@ -1,162 +1,111 @@
 import React, {useState, useEffect} from 'react'
-import auth from './../auth/auth-helper'
+import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
+import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
-import CardActions from '@material-ui/core/CardActions'
 import Typography from '@material-ui/core/Typography'
-import Avatar from '@material-ui/core/Avatar'
-import IconButton from '@material-ui/core/IconButton'
-import DeleteIcon from '@material-ui/icons/Delete'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
-import CommentIcon from '@material-ui/icons/Comment'
-import Divider from '@material-ui/core/Divider'
-import PropTypes from 'prop-types'
-import {makeStyles} from '@material-ui/core/styles'
-import {Link} from 'react-router-dom'
-import {remove, like, unlike} from './api-place.js'
-import Reviews from './Reviews'
-import {DeleteForever} from "@material-ui/icons";
+import Grid from '@material-ui/core/Grid'
+import auth from './../auth/auth-helper'
+import FindPeople from './../user/FindPeople'
+import Newsfeed from './../post/Newsfeed'
+import Sign from './../assets/images/blank-signpost.png'
+import NewPlaceB from "./NewPlaceB";
+import NewPost from "../post/NewPost";
+import {listNewsFeed} from "../post/api-post";
 
 const useStyles = makeStyles(theme => ({
-  card: {
-    maxWidth:600,
-    margin: 'auto',
-    marginBottom: theme.spacing(3),
-    backgroundColor: 'rgba(0, 0, 0, 0.06)'
-  },
-  cardContent: {
-    backgroundColor: 'white',
-    padding: `${theme.spacing(2)}px 0px`
-  },
-  cardHeader: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1)
-  },
-  text: {
-    margin: theme.spacing(2)
-  },
-  photo: {
-    textAlign: 'center',
-    backgroundColor: '#f2f5f4',
-    padding:theme.spacing(1)
-  },
-  media: {
-    height: 200
-  },
-  button: {
-   margin: theme.spacing(1),
-  }
+    root: {
+        flexGrow: 1,
+        margin: 30,
+    },
+    card: {
+        maxWidth: 600,
+        margin: 'auto',
+        marginTop: theme.spacing(5),
+        marginBottom: theme.spacing(5)
+    },
+    title: {
+        padding:`${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(2)}px`,
+        color: theme.palette.text.secondary
+    },
+    media: {
+        minHeight: 400
+    },
+    credit: {
+        padding: 10,
+        textAlign: 'right',
+        backgroundColor: '#ededed',
+        borderBottom: '1px solid #d0d0d0',
+        '& a':{
+            color: '#3f4771'
+        }
+    }
 }))
 
-export default function Place (props){
-  const classes = useStyles()
-  const jwt = auth.isAuthenticated()
-  const checkLike = (likes) => {
-    let match = likes.indexOf(jwt.user._id) !== -1
-    return match
-  }
-  const [values, setValues] = useState({
-    like: checkLike(props.place.likes),
-    likes: props.place.likes.length,
-    comments: props.place.comments
-  })
-  
-  // useEffect(() => {
-  //   setValues({...values, like:checkLike(props.post.likes), likes: props.post.likes.length, comments: props.post.comments})
-  // }, [])
+export default function Places({history}){
+    const classes = useStyles()
+    const [defaultPage, setDefaultPage] = useState(false)
 
-  
+    useEffect(()=> {
+        setDefaultPage(auth.isAuthenticated())
+        const unlisten = history.listen (() => {
+            setDefaultPage(auth.isAuthenticated())
+        })
+        return () => {
+            unlisten()
+        }
+    }, [])
 
-  const clickLike = () => {
-    let callApi = values.like ? unlike : like
-    callApi({
-      userId: jwt.user._id
+    listNewsFeed({
+        userId: jwt.user._id
     }, {
-      t: jwt.token
-    }, props.place._id).then((data) => {
-      if (data.error) {
-        console.log(data.error)
-      } else {
-        setValues({...values, like: !values.like, likes: data.likes.length})
-      }
+        t: jwt.token
+    }, signal).then((data) => {
+        if (data.error) {
+            console.log(data.error)
+        } else {
+            setPosts(data)
+        }
     })
-  }
+    return function cleanup(){
+        abortController.abort()
+    }
 
-  const updateReviews = (reviews) => {
-    setValues({...values, reviews: reviews})
-  }
+    const addPost = (post) => {
+        const updatedPosts = [...posts]
+        updatedPosts.unshift(post)
+        setPosts(updatedPosts)
+    }
 
-  const deletePlace = () => {
-    remove({
-      placeId: props.place._id
-    }, {
-      t: jwt.token
-    }).then((data) => {
-      if (data.error) {
-        console.log(data.error)
-      } else {
-        props.onRemove(props.place)
-      }
-    })
-  }
+    const addPlace = (place) => {
+        const updatedPlacces = [...places]
+        updatedPlaces.unshift(place)
+        setPlaces(updatedPlacces)
+    }
 
     return (
-      <Card className={classes.card}>
-        <CardHeader
-            avatar={
-              <Avatar src={'/api/users/photo/'+props.place.createdBy._id}/>
-            }
-            //Attempt at implementing admin delete
-            /*
-            action={"Admin" === auth.isAuthenticated().account_type &&
-            <IconButton onClick={deletePost}>
-              <DeleteForever/>
-            </IconButton>
-            }
-            */
-            action={props.place.createdBy._id === auth.isAuthenticated().user._id &&
-              <IconButton onClick={deletePlace}>
-                <DeleteIcon/>
-              </IconButton>
-            }
-            title={<Link to={"/user/" + props.place.createdBy._id}>{props.place.createdBy.name}</Link>}
-            subheader={(new Date(props.place.created)).toDateString()}
-            className={classes.cardHeader}
-          />
-        <CardContent className={classes.cardContent}>
-          <Typography component="p" className={classes.text}>
-            {props.place.text}
-          </Typography>
-          {props.place.photo &&
-            (<div className={classes.photo}>
-              <img
-                className={classes.media}
-                src={'/api/posts/photo/'+props.place._id}
-                />
-            </div>)}
-        </CardContent>
-        <CardActions>
-          { values.like
-            ? <IconButton onClick={clickLike} className={classes.button} aria-label="Like" color="secondary">
-                <FavoriteIcon />
-              </IconButton>
-            : <IconButton onClick={clickLike} className={classes.button} aria-label="Unlike" color="secondary">
-                <FavoriteBorderIcon />
-              </IconButton> } <span>{values.likes}</span>
-              <IconButton className={classes.button} aria-label="Comment" color="secondary">
-                <CommentIcon/>
-              </IconButton> <span>{values.reviews.length}</span>
-        </CardActions>
-        <Divider/>
-        <Reviews placeId={props.place._id} reviews={values.reviews} updateReviews={updateReviews}/>
-      </Card>
-    )
-  
-}
+        <div className={classes.root}>
+            <Typography variant="h6" className={classes.title}>
+                Places
+            </Typography>
+            <Grid container spacing={8}>
+                <Grid item xs={12}>
 
-Place.propTypes = {
-  place: PropTypes.object.isRequired,
-  onRemove: PropTypes.func.isRequired
+                    <Card className={classes.card}>
+
+                        <CardContent>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <Typography variant="h6" className={classes.title}>
+                            Create a Place
+                        </Typography>
+                        <CardContent>
+                            <NewPost addUpdate={addPost}/>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+        </div>
+    )
 }

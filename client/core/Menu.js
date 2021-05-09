@@ -49,8 +49,8 @@ const Menu = withRouter(({history}) => (
                     <Button color="inherit" onClick={() => {
                         auth.clearJWT(() => history.push('/'))
                     }}>Sign out</Button>
-                    <Link to="/Places">
-                        <Button style={isActive(history, "/Places")}>Places
+                    <Link to="/places">
+                        <Button style={isActive(history, "/places")}>Places
                         </Button>
                     </Link>
                     <Link to="/Events">

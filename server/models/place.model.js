@@ -12,13 +12,16 @@ const PlaceSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-  address: {
-    type: String,
-    required: 'Address is required'
-  },
+  address:[{
+    Number: [{type: Number, required: true}],
+    Road: [{type: String, required: true}],
+    Apartment: [{type: Number}],
+    City: [{type: String, required: true}],
+    State: [{type: String, required: true}],
+    Zip: [{type: Number, required: true}]
+  }],
   type: {
-    type: String,
-    default: "Private"
+    type: String
   },
   likes: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
   tags: [{type: mongoose.Schema.ObjectId, ref: 'Tag'}],
