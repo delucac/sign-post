@@ -14,7 +14,6 @@ import {makeStyles} from '@material-ui/core/styles'
 import {create} from './api-place.js'
 import IconButton from '@material-ui/core/IconButton'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
-//import TableDatePicker from "../DateManagement/DatePicker";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -128,8 +127,6 @@ export default function NewPlace (props){
             className={classes.textField}
             margin="normal"
         />
-        Date of place:
-        {/*<TableDatePicker/>*/}
         <br/>
         <input accept="image/*" onChange={handleChange('photo')} className={classes.input} id="icon-button-file" type="file" />
         <label htmlFor="icon-button-file">
@@ -144,7 +141,7 @@ export default function NewPlace (props){
         }
       </CardContent>
       <CardActions>
-        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPlace} className={classes.submit}>POST EVENT</Button>
+        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPlace} className={classes.submit}>POST PLACE</Button>
       </CardActions>
     </Card>
   </div>)

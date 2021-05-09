@@ -53,16 +53,10 @@ const Menu = withRouter(({history}) => (
                         <Button style={isActive(history, "/events")}>Events
                         </Button>
                     </Link>
-                    {/*
-                    <Link to="/Places">
-                        <Button style={isActive(history, "/Places")}>Places
+                    <Link to="/places">
+                        <Button style={isActive(history, "/places")}>Places
                         </Button>
                     </Link>
-                    <Link to="/Events">
-                        <Button style={isActive(history, "/Events")}>Events
-                        </Button>
-                    </Link>
-                    */}
                     <Link to="/legal">
                         <Button style={isActive(history, "/legal")}>Legal
                         </Button>
