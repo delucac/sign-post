@@ -9,12 +9,14 @@ import Profile from './user/Profile'
 import PrivateRoute from './auth/PrivateRoute'
 import Menu from './core/Menu'
 import Legal from './Legal/Legal'
+import Event from './core/EventPage'
 
 const MainRouter = () => {
     return (<div>
       <Menu/>
       <Switch>
         <Route exact path="/" component={Home}/>
+        <Route path="/events" component={Event}/>
         <Route path="/users" component={Users}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/signin" component={Signin}/>

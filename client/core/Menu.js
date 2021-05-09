@@ -35,6 +35,10 @@ const Menu = withRouter(({history}) => (
             <Button style={isActive(history, "/signin")}>Sign In
             </Button>
           </Link>
+          <Link to="/legal">
+            <Button style={isActive(history, "/legal")}>Legal
+            </Button>
+          </Link>
         </span>)
             }
             {
@@ -45,6 +49,11 @@ const Menu = withRouter(({history}) => (
                     <Button color="inherit" onClick={() => {
                         auth.clearJWT(() => history.push('/'))
                     }}>Sign out</Button>
+                    <Link to="/events">
+                        <Button style={isActive(history, "/events")}>Events
+                        </Button>
+                    </Link>
+                    {/*
                     <Link to="/Places">
                         <Button style={isActive(history, "/Places")}>Places
                         </Button>
@@ -53,12 +62,13 @@ const Menu = withRouter(({history}) => (
                         <Button style={isActive(history, "/Events")}>Events
                         </Button>
                     </Link>
+                    */}
+                    <Link to="/legal">
+                        <Button style={isActive(history, "/legal")}>Legal
+                        </Button>
+                    </Link>
         </span>)
             }
-            <Link to="/legal">
-                <Button style={isActive(history, "/legal")}>Legal
-                </Button>
-            </Link>
         </Toolbar>
     </AppBar>
 ))
