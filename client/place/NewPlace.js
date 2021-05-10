@@ -154,6 +154,7 @@ export default function NewPlace (props){
           <option value="Restaurant">Restaurant</option>
           <option value="Park">Park</option>
           <option value="Beach">Beach</option>
+          <option value="Online">Online</option>
           <option value="Other">Other</option>
         </select>
         <br/>

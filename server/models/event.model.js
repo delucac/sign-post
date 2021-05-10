@@ -25,7 +25,8 @@ const EventSchema = new mongoose.Schema({
   created: {
     type: Date,
     default: Date.now
-  }
+  },
+  place: {type: mongoose.Schema.ObjectId, red: 'Place'}
 })
 
 export default mongoose.model('event', EventSchema)
