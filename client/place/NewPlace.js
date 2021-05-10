@@ -62,6 +62,8 @@ export default function NewPlace (props){
     name: '',
     description: '',
     address: '',
+    isPrivate: '',
+    placeType: '',
     photo: '',
     error: '',
     user: {}
@@ -75,6 +77,8 @@ export default function NewPlace (props){
     placeData.append('name', values.name)
     placeData.append('description', values.description)
     placeData.append('address', values.address)
+    placeData.append('placeType', values.placeType)
+    placeData.append('isPrivate', values.isPrivate)
     placeData.append('photo', values.photo)
     create({
       userId: jwt.user._id
@@ -84,7 +88,7 @@ export default function NewPlace (props){
       if (data.error) {
         setValues({...values, error: data.error})
       } else {
-        setValues({...values, name:'', description:'', address:'', photo: ''})
+        setValues({...values, name:'', description:'', address:'', isPrivate:'', placeType:'', photo: ''})
         props.addUpdate(data)
       }
     })
@@ -96,6 +100,8 @@ export default function NewPlace (props){
     setValues({...values, [name]: value })
     setValues({...values, [description]: value })
     setValues({...values, [address]: value})
+    setValues({...values, [isPrivate]: value})
+    setValues({...values, [placeType]: value})
   }
   const photoURL = values.user._id ?'/api/users/photo/'+ values.user._id : '/api/users/defaultphoto'
     return (<div className={classes.root}>
@@ -135,6 +141,35 @@ export default function NewPlace (props){
             className={classes.textField}
             margin="normal"
         />
+        <Typography component="p" className={classes.textField}>
+          Type:
+        </Typography>
+        <select
+            value={values.placeType}
+            onChange={handleChange('placeType')}
+            className={classes.textField}
+        >
+          <option value=""></option>
+          <option value="Residence">Residence</option>
+          <option value="Restaurant">Restaurant</option>
+          <option value="Park">Park</option>
+          <option value="Beach">Beach</option>
+          <option value="Other">Other</option>
+        </select>
+        <br/>
+        <br/>
+        <Typography component="p" className={classes.textField}>
+          Non-Public/Public:
+        </Typography>
+        <select
+            value={values.isPrivate}
+            onChange={handleChange('isPrivate')}
+            className={classes.textField}
+        >
+          <option value=""></option>
+          <option value="Non-Public">Non-Public</option>
+          <option value="Public">Public</option>
+        </select>
         <br/>
         <input accept="image/*" onChange={handleChange('photo')} className={classes.input} id="icon-button-file" type="file" />
         <label htmlFor="icon-button-file">

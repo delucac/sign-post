@@ -128,8 +128,16 @@ export default function NewEvent (props){
             className={classes.textField}
             margin="normal"
         />
-        Date of event:
-        {/*<TableDatePicker/>*/}
+        <Typography component="p" className={classes.textField}>
+          Date/Time of event:
+        </Typography>
+        <TextField
+            id="date"
+            type="datetime-local"
+            className={classes.textField}
+            value={values.date}
+            onChange={handleChange('date')}
+        />
         <br/>
         <input accept="image/*" onChange={handleChange('photo')} className={classes.input} id="icon-button-file" type="file" />
         <label htmlFor="icon-button-file">

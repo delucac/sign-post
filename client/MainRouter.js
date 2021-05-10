@@ -10,7 +10,9 @@ import PrivateRoute from './auth/PrivateRoute'
 import Menu from './core/Menu'
 import Legal from './Legal/Legal'
 import Event from './core/EventPage'
+//import EventInfo from './event/info'
 import Place from './core/PlacePage'
+//import PlaceInfo from './place/Info'
 
 const MainRouter = () => {
     return (<div>
@@ -24,6 +26,8 @@ const MainRouter = () => {
         <Route path="/signin" component={Signin}/>
         <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
         <Route path="/user/:userId" component={Profile}/>
+        {/*<Route path="/events/:eventId" component={EventInfo}/>*/}
+        {/*<Route path="/places/:placeId" component={PlaceInfo}/>*/}
         <Route path="/legal" component={Legal}/>
       </Switch>
     </div>)

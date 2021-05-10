@@ -12,6 +12,12 @@ const PlaceSchema = new mongoose.Schema({
     type: String,
     required: 'description is required'
   },
+  isPrivate: {
+    type: String
+  },
+  placeType:{
+    type: String
+  },
   photo: {
     data: Buffer,
     contentType: String

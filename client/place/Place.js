@@ -68,8 +68,6 @@ export default function Place (props){
   //   setValues({...values, like:checkLike(props.place.likes), likes: props.place.likes.length, comments: props.place.comments})
   // }, [])
 
-
-
   const clickLike = () => {
     let callApi = values.like ? unlike : like
     callApi({
@@ -109,14 +107,6 @@ export default function Place (props){
             avatar={
               <Avatar src={'/api/users/photo/'+props.place.postedBy._id}/>
             }
-            //Attempt at implementing admin delete
-            /*
-            action={"Admin" === auth.isAuthenticated().account_type &&
-            <IconButton onClick={deletePlace}>
-              <DeleteForever/>
-            </IconButton>
-            }
-            */
             action={props.place.postedBy._id === auth.isAuthenticated().user._id &&
               <IconButton onClick={deletePlace}>
                 <DeleteIcon/>
@@ -130,13 +120,16 @@ export default function Place (props){
           <Typography component="p" className={classes.text}>
             Name: {props.place.name}
           </Typography>
+          <Typography component="p" className={classes.text}>
+            Type: {props.place.isPrivate} {props.place.placeType}
+          </Typography>
           <hr/>
           <Typography component="p" className={classes.text}>
             Address: {props.place.address}
           </Typography>
           <hr/>
           <Typography component="p" className={classes.text}>
-            Description:{props.place.description}
+            Description: {props.place.description}
           </Typography>
           {props.place.photo &&
             (<div className={classes.photo}>
@@ -146,6 +139,10 @@ export default function Place (props){
                 alt="Place Photo"
                 />
             </div>)}
+          <hr/>
+          <Typography component="p" className={classes.text}>
+            PlaceID: {props.place._id}
+          </Typography>
         </CardContent>
         <CardActions>
           { values.like

@@ -126,17 +126,17 @@ export default function Home({history}){
                   <br/>
                   <h5>How we utilize your data.</h5>
                   <div>
-                    test
+                    We only share your data with OpenStreetMap for the purpose of showing mapping information.
                   </div>
                   <br/>
                   <h5>How you may utilize our services.</h5>
                   <div>
-                    test
+                    You may utilize our service to advertise events as places you own or have permission to host events at.
                   </div>
                   <br/>
                   <h5>Termination Policy</h5>
                   <div>
-                    test
+                    In the event that you are found to be abusing these services, creating excessive entries which serve no purpose (spam), or attempt to ruin the expereince for other users, we may chose to suspend your account.
                   </div>
                 </Typography>
                 <hr/>

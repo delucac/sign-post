@@ -18,6 +18,7 @@ import {Link} from 'react-router-dom'
 import {remove, like, unlike} from './api-event.js'
 import Comments from './Comments'
 import {DeleteForever} from "@material-ui/icons"
+import moment from 'moment'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -131,12 +132,13 @@ export default function Event (props){
             Name: {props.event.name}
           </Typography>
           <hr/>
+
           <Typography component="p" className={classes.text}>
-            Date: {props.event.date}
+            Date: {moment(props.event.date).format('LLLL')}
           </Typography>
           <hr/>
           <Typography component="p" className={classes.text}>
-            Description:{props.event.description}
+            Description: {props.event.description}
           </Typography>
           {props.event.photo &&
             (<div className={classes.photo}>
