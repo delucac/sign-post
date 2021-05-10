@@ -86,9 +86,6 @@ export default function Home({history}){
                       <li>Hashed password (we do not store your passwords in readable forms)</li>
                       <li>Account creation time</li>
                     </ul>
-                    <ul>
-
-                    </ul>
                   </div>
                   <hr/>
                   <h2 id="LD">Location Data</h2>
@@ -160,7 +157,7 @@ export default function Home({history}){
                 </Typography>
                 <Typography>
                   <div>
-                    This project was created by Christopher B. DeLuca as a capstone project.
+                    This project was created by Christopher B. DeLuca as a capstone project. This project was based off a template from <a href="https://www.packtpub.com/web-development/full-stack-react-projects-second-edition">Full-Stack React Projects - Second Edition</a>
                   </div>
                 </Typography>
                 <hr/>
