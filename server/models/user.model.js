@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema({
   },
   account_type: {
     type: String,
-    default: "User"
+    default: 'User'
   },
   about: {
     type: String,

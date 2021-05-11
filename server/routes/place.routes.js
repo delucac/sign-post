@@ -30,6 +30,14 @@ router.route('/api/places/uncomment')
 router.route('/api/places/:placeId')
   .delete(authCtrl.requireSignin, placeCtrl.isPoster, placeCtrl.remove)
 
+router.route('/api/places/review')
+  .put(authCtrl.requireSignin, placeCtrl.review)
+router.route('/api/places/unreview')
+  .put(authCtrl.requireSignin, placeCtrl.unreview)
+
+router.route('/api/places/:placeId')
+  .delete(authCtrl.requireSignin, placeCtrl.isCreator, placeCtrl.remove)
+
 router.param('userId', userCtrl.userByID)
 router.param('placeId', placeCtrl.placeByID)
 

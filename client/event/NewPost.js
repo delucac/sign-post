@@ -87,21 +87,20 @@ export default function NewPost (props){
   }
   const handleChange = name => event => {
     const value = name === 'photo'
-        ? event.target.files[0]
-        : event.target.value
+      ? event.target.files[0]
+      : event.target.value
     setValues({...values, [name]: value })
   }
-
   const photoURL = values.user._id ?'/api/users/photo/'+ values.user._id : '/api/users/defaultphoto'
-  return (<div className={classes.root}>
-    <Card className={classes.card}>
+    return (<div className={classes.root}>
+      <Card className={classes.card}>
       <CardHeader
-          avatar={
-            <Avatar src={photoURL}/>
-          }
-          title={values.user.name}
-          className={classes.cardHeader}
-      />
+            avatar={
+              <Avatar src={photoURL}/>
+            }
+            title={values.user.name}
+            className={classes.cardHeader}
+          />
       <CardContent className={classes.cardContent}>
         <TextField
             placeholder="Share your thoughts ..."
@@ -119,9 +118,9 @@ export default function NewPost (props){
           </IconButton>
         </label> <span className={classes.filename}>{values.photo ? values.photo.name : ''}</span>
         { values.error && (<Typography component="p" color="error">
-          <Icon color="error" className={classes.error}>error</Icon>
-          {values.error}
-        </Typography>)
+            <Icon color="error" className={classes.error}>error</Icon>
+              {values.error}
+            </Typography>)
         }
       </CardContent>
       <CardActions>
