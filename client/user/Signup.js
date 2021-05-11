@@ -77,6 +77,10 @@ export default function Signup (){
           <Typography variant="h6" className={classes.title}>
             Sign Up
           </Typography>
+          <br/>
+          <Typography variant="h8" className={classes.textField}>
+            By creating an account, you agree to the <a href="/legal">Sign Post Privacy Policy, and Terms of Use.</a>
+          </Typography>
           <TextField id="name" label="Name" className={classes.textField} value={values.name} onChange={handleChange('name')} margin="normal"/><br/>
           <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
           <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>

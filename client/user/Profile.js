@@ -18,8 +18,8 @@ import {Redirect, Link} from 'react-router-dom'
 import FollowProfileButton from './../user/FollowProfileButton'
 import ProfileTabs from './../user/ProfileTabs'
 import {listByUser} from './../post/api-post.js'
-import {listByUserEvent} from './../event/api-event'
-import {listByUserPlace} from "../place/api-place";
+import {listByUserEvent} from './../event/api-event.js'
+import {listByUserPlace} from "./../place/api-place.js"
 
 const useStyles = makeStyles(theme => ({
   root: theme.mixins.gutters({
@@ -121,7 +121,7 @@ export default function Profile({ match }) {
     })
   }
   const loadPlaces = (user) => {
-    listByUser({
+    listByUserPlace({
       userId: user
     }, {
       t: jwt.token
@@ -190,7 +190,9 @@ export default function Profile({ match }) {
         <ProfileTabs
             user={values.user}
             posts={posts} removePostUpdate={removePost}
-            events={events} removeEventUpdate={removeEvent}/>
+            events={events} removeEventUpdate={removeEvent}
+            places={places} removePlaceUpdate={removePlace}
+        />
       </Paper>
     )
 }

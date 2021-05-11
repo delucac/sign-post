@@ -13,6 +13,7 @@ import Event from './core/EventPage'
 //import EventInfo from './event/info'
 import Place from './core/PlacePage'
 //import PlaceInfo from './place/Info'
+import People from './user/FindPeople'
 
 const MainRouter = () => {
     return (<div>
@@ -29,6 +30,7 @@ const MainRouter = () => {
         {/*<Route path="/events/:eventId" component={EventInfo}/>*/}
         {/*<Route path="/places/:placeId" component={PlaceInfo}/>*/}
         <Route path="/legal" component={Legal}/>
+        <Route path="/people" component={People}/>
       </Switch>
     </div>)
 }
