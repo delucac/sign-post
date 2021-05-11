@@ -1,39 +1,32 @@
 import mongoose from 'mongoose'
 const EventSchema = new mongoose.Schema({
-  Name: {
+  name: {
     type: String,
     required: 'Name is required'
+  },
+  description: {
+    type: String,
+    required: 'description is required'
+  },
+  date: {
+    type: Date
   },
   photo: {
     data: Buffer,
     contentType: String
   },
-  description: {
-    type: String,
-    trim: true
-  },
-  type: {
-    type: String,
-    default: "Private"
-  },
-  place: {
-    type: mongoose.Schema.ObjectId, ref: 'Place'
-  },
-  Date: {
-    type: Date
-  },
+  likes: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
   comments: [{
     text: String,
     created: { type: Date, default: Date.now },
-    createdBy: { type: mongoose.Schema.ObjectId, ref: 'User'}
+    postedBy: { type: mongoose.Schema.ObjectId, ref: 'User'}
   }],
-  likes: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
-  tags: [{type: mongoose.Schema.ObjectId, ref: 'Tag'}],
-  createdBy: {type: mongoose.Schema.ObjectId, ref: 'User'},
+  postedBy: {type: mongoose.Schema.ObjectId, ref: 'User'},
   created: {
     type: Date,
     default: Date.now
-  }
+  },
+  place: {type: mongoose.Schema.ObjectId, red: 'Place'}
 })
 
-export default mongoose.model('Event', EventSchema)
+export default mongoose.model('event', EventSchema)

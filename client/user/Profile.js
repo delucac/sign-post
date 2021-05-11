@@ -4,8 +4,8 @@ import Paper from '@material-ui/core/Paper'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction' 
-import ListItemText from '@material-ui/core/ListItemText' 
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
@@ -18,6 +18,8 @@ import {Redirect, Link} from 'react-router-dom'
 import FollowProfileButton from './../user/FollowProfileButton'
 import ProfileTabs from './../user/ProfileTabs'
 import {listByUser} from './../post/api-post.js'
+import {listByUserEvent} from './../event/api-event.js'
+import {listByUserPlace} from "./../place/api-place.js"
 
 const useStyles = makeStyles(theme => ({
   root: theme.mixins.gutters({
@@ -46,12 +48,14 @@ export default function Profile({ match }) {
     following: false
   })
   const [posts, setPosts] = useState([])
+  const [events, setEvents] = useState([])
+  const [places, setPlaces] = useState([])
   const jwt = auth.isAuthenticated()
 
   useEffect(() => {
     const abortController = new AbortController()
     const signal = abortController.signal
-  
+
     read({
       userId: match.params.userId
     }, {t: jwt.token}, signal).then((data) => {
@@ -61,6 +65,8 @@ export default function Profile({ match }) {
         let following = checkFollow(data)
         setValues({...values, user: data, following: following})
         loadPosts(data._id)
+        loadEvents(data._id)
+        loadPlaces(data._id)
       }
     })
     return function cleanup(){
@@ -68,7 +74,7 @@ export default function Profile({ match }) {
     }
 
   }, [match.params.userId])
-  
+
   const checkFollow = (user) => {
     const match = user.followers.some((follower)=> {
       return follower._id == jwt.user._id
@@ -101,11 +107,49 @@ export default function Profile({ match }) {
       }
     })
   }
+  const loadEvents = (user) => {
+    listByUserEvent({
+      userId: user
+    }, {
+      t: jwt.token
+    }).then((data) => {
+      if (data.error) {
+        console.log(data.error)
+      } else {
+        setEvents(data)
+      }
+    })
+  }
+  const loadPlaces = (user) => {
+    listByUserPlace({
+      userId: user
+    }, {
+      t: jwt.token
+    }).then((data) => {
+      if (data.error) {
+        console.log(data.error)
+      } else {
+        setPlaces(data)
+      }
+    })
+  }
   const removePost = (post) => {
     const updatedPosts = posts
     const index = updatedPosts.indexOf(post)
     updatedPosts.splice(index, 1)
     setPosts(updatedPosts)
+  }
+  const removeEvent = (event) => {
+    const updatedEvents = events
+    const index = updatedEvents.indexOf(event)
+    updatedEvents.splice(index, 1)
+    setEvents(updatedEvents)
+  }
+  const removePlace = (place) => {
+    const updatedPlaces = places
+    const index = updatedPlaces.indexOf(place)
+    updatedPlaces.splice(index, 1)
+    setPlaces(updatedPlaces)
   }
 
     const photoUrl = values.user._id
@@ -143,7 +187,12 @@ export default function Profile({ match }) {
               new Date(values.user.created)).toDateString()}/>
           </ListItem>
         </List>
-        <ProfileTabs user={values.user} posts={posts} removePostUpdate={removePost}/>
+        <ProfileTabs
+            user={values.user}
+            posts={posts} removePostUpdate={removePost}
+            events={events} removeEventUpdate={removeEvent}
+            places={places} removePlaceUpdate={removePlace}
+        />
       </Paper>
     )
 }

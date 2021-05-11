@@ -4,9 +4,9 @@ import Card from '@material-ui/core/Card'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import auth from './../auth/auth-helper'
-import EventList from './EventList'
-import {listNewsFeed} from './api-event.js'
-import NewEvent from './NewEvent'
+import PlaceList from './PlaceList'
+import {listNewsFeed} from './api-place.js'
+import NewPlace from './NewPlace'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 }))
 export default function Newsfeed () {
   const classes = useStyles()
-  const [events, setEvents] = useState([])
+  const [places, setPlaces] = useState([])
   const jwt = auth.isAuthenticated()
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function Newsfeed () {
       if (data.error) {
         console.log(data.error)
       } else {
-        setEvents(data)
+        setPlaces(data)
       }
     })
     return function cleanup(){
@@ -49,16 +49,16 @@ export default function Newsfeed () {
 
   }, [])
 
-  const addEvent = (event) => {
-    const updatedEvents = [...events]
-    updatedEvents.unshift(event)
-    setEvents(updatedEvents)
+  const addPlace = (place) => {
+    const updatedPlaces = [...places]
+    updatedPlaces.unshift(place)
+    setPlaces(updatedPlaces)
   }
-  const removeEvent = (event) => {
-    const updatedEvents = [...events]
-    const index = updatedEvents.indexOf(event)
-    updatedEvents.splice(index, 1)
-    setEvents(updatedEvents)
+  const removePlace = (place) => {
+    const updatedPlaces = [...places]
+    const index = updatedPlaces.indexOf(place)
+    updatedPlaces.splice(index, 1)
+    setPlaces(updatedPlaces)
   }
 
     return (
@@ -67,9 +67,9 @@ export default function Newsfeed () {
           Newsfeed
         </Typography>
         <Divider/>
-        <NewEvent addUpdate={addEvent}/>
+        <NewPlace addUpdate={addPlace}/>
         <Divider/>
-        <EventList removeUpdate={removeEvent} events={events}/>
+        <PlaceList removeUpdate={removePlace} places={places}/>
       </Card>
     )
 }

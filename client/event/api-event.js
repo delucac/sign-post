@@ -1,12 +1,12 @@
-const create = async (params, credentials, place) => {
+const create = async (params, credentials, event) => {
   try {
-    let response = await fetch('/api/places/new/'+ params.userId, {
+    let response = await fetch('/api/events/new/'+ params.userId, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: place
+      body: event
     })
     return await response.json()
   } catch(err) {
@@ -14,9 +14,9 @@ const create = async (params, credentials, place) => {
   }
 }
 
-const listByUserPlace = async (params, credentials) => {
+const listByUserEvent = async (params, credentials) => {
   try {
-    let response = await fetch('/api/places/by/'+ params.userId, {
+    let response = await fetch('/api/events/by/'+ params.userId, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -32,7 +32,7 @@ const listByUserPlace = async (params, credentials) => {
 
 const listNewsFeed = async (params, credentials, signal) => {
   try {
-    let response = await fetch('/api/places/feed/'+ params.userId, {
+    let response = await fetch('/api/events/feed/'+ params.userId, {
       method: 'GET',
       signal: signal,
       headers: {
@@ -40,7 +40,7 @@ const listNewsFeed = async (params, credentials, signal) => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       }
-    })
+    })    
     return await response.json()
   } catch(err) {
     console.log(err)
@@ -49,7 +49,7 @@ const listNewsFeed = async (params, credentials, signal) => {
 
 const remove = async (params, credentials) => {
   try {
-    let response = await fetch('/api/places/' + params.placeId, {
+    let response = await fetch('/api/events/' + params.eventId, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
@@ -64,16 +64,16 @@ const remove = async (params, credentials) => {
 }
 
 
-const like = async (params, credentials, placeId) => {
+const like = async (params, credentials, eventId) => {
   try {
-    let response = await fetch('/api/places/like/', {
+    let response = await fetch('/api/events/like/', {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({userId:params.userId, placeId: placeId})
+      body: JSON.stringify({userId:params.userId, eventId: eventId})
     })
     return await response.json()
   } catch(err) {
@@ -82,16 +82,16 @@ const like = async (params, credentials, placeId) => {
 }
 
 
-const unlike = async (params, credentials, placeId) => {
+const unlike = async (params, credentials, eventId) => {
   try {
-    let response = await fetch('/api/places/unlike/', {
+    let response = await fetch('/api/events/unlike/', {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({userId:params.userId, placeId: placeId})
+      body: JSON.stringify({userId:params.userId, eventId: eventId})
     })
     return await response.json()
   } catch(err) {
@@ -100,16 +100,16 @@ const unlike = async (params, credentials, placeId) => {
 }
 
 
-const comment = async (params, credentials, placeId, comment) => {
+const comment = async (params, credentials, eventId, comment) => {
   try {
-    let response = await fetch('/api/places/comment/', {
+    let response = await fetch('/api/events/comment/', {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({userId:params.userId, placeId: placeId, comment: comment})
+      body: JSON.stringify({userId:params.userId, eventId: eventId, comment: comment})
     })
     return await response.json()
   } catch(err) {
@@ -118,16 +118,16 @@ const comment = async (params, credentials, placeId, comment) => {
 }
 
 
-const uncomment = async (params, credentials, placeId, comment) => {
+const uncomment = async (params, credentials, eventId, comment) => {
   try {
-    let response = await fetch('/api/places/uncomment/', {
+    let response = await fetch('/api/events/uncomment/', {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({userId:params.userId, placeId: placeId, comment: comment})
+      body: JSON.stringify({userId:params.userId, eventId: eventId, comment: comment})
     })
     return await response.json()
   } catch(err) {
@@ -138,7 +138,7 @@ const uncomment = async (params, credentials, placeId, comment) => {
 
 export {
   listNewsFeed,
-  listByUserPlace,
+  listByUserEvent,
   create,
   remove,
   like,

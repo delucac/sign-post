@@ -15,9 +15,10 @@ import Divider from '@material-ui/core/Divider'
 import PropTypes from 'prop-types'
 import {makeStyles} from '@material-ui/core/styles'
 import {Link} from 'react-router-dom'
-import {remove, like, unlike} from './api-place.js'
+import {remove, like, unlike} from './api-event.js'
 import Comments from './Comments'
 import {DeleteForever} from "@material-ui/icons"
+import moment from 'moment'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -50,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Place (props){
+export default function Event (props){
   const classes = useStyles()
   const jwt = auth.isAuthenticated()
   const checkLike = (likes) => {
@@ -58,15 +59,17 @@ export default function Place (props){
     return match
   }
   const [values, setValues] = useState({
-    like: checkLike(props.place.likes),
-    likes: props.place.likes.length,
-    comments: props.place.comments
+    like: checkLike(props.event.likes),
+    likes: props.event.likes.length,
+    comments: props.event.comments
   })
 
 
   // useEffect(() => {
-  //   setValues({...values, like:checkLike(props.place.likes), likes: props.place.likes.length, comments: props.place.comments})
+  //   setValues({...values, like:checkLike(props.event.likes), likes: props.event.likes.length, comments: props.event.comments})
   // }, [])
+
+
 
   const clickLike = () => {
     let callApi = values.like ? unlike : like
@@ -74,7 +77,7 @@ export default function Place (props){
       userId: jwt.user._id
     }, {
       t: jwt.token
-    }, props.place._id).then((data) => {
+    }, props.event._id).then((data) => {
       if (data.error) {
         console.log(data.error)
       } else {
@@ -87,16 +90,16 @@ export default function Place (props){
     setValues({...values, comments: comments})
   }
 
-  const deletePlace = () => {
+  const deleteEvent = () => {
     remove({
-      placeId: props.place._id
+      eventId: props.event._id
     }, {
       t: jwt.token
     }).then((data) => {
       if (data.error) {
         console.log(data.error)
       } else {
-        props.onRemove(props.place)
+        props.onRemove(props.event)
       }
     })
   }
@@ -105,43 +108,48 @@ export default function Place (props){
       <Card className={classes.card}>
         <CardHeader
             avatar={
-              <Avatar src={'/api/users/photo/'+props.place.postedBy._id}/>
+              <Avatar src={'/api/users/photo/'+props.event.postedBy._id}/>
             }
-            action={props.place.postedBy._id === auth.isAuthenticated().user._id &&
-              <IconButton onClick={deletePlace}>
+            //Attempt at implementing admin delete
+            /*
+            action={"Admin" === auth.isAuthenticated().account_type &&
+            <IconButton onClick={deleteEvent}>
+              <DeleteForever/>
+            </IconButton>
+            }
+            */
+            action={props.event.postedBy._id === auth.isAuthenticated().user._id &&
+              <IconButton onClick={deleteEvent}>
                 <DeleteIcon/>
               </IconButton>
             }
-            title={<Link to={"/user/" + props.place.postedBy._id}>{props.place.postedBy.name}</Link>}
-            subheader={(new Date(props.place.created)).toDateString()}
+            title={<Link to={"/user/" + props.event.postedBy._id}>{props.event.postedBy.name}</Link>}
+            subheader={(new Date(props.event.created)).toDateString()}
             className={classes.cardHeader}
           />
         <CardContent className={classes.cardContent}>
           <Typography component="p" className={classes.text}>
-            Name: {props.place.name}
-          </Typography>
-          <Typography component="p" className={classes.text}>
-            Type: {props.place.isPrivate} {props.place.placeType}
+            Name: {props.event.name}
           </Typography>
           <hr/>
           <Typography component="p" className={classes.text}>
-            Address: {props.place.address}
+            Date/Time: {moment(props.event.date).format('LLLL')}.
           </Typography>
           <hr/>
           <Typography component="p" className={classes.text}>
-            Description: {props.place.description}
+            Description: {props.event.description}
           </Typography>
-          {props.place.photo &&
+          {props.event.photo &&
             (<div className={classes.photo}>
               <img
                 className={classes.media}
-                src={'/api/places/photo/'+props.place._id}
-                alt="Place Photo"
+                src={'/api/events/photo/'+props.event._id}
+                alt="Event Photo"
                 />
             </div>)}
           <hr/>
           <Typography component="p" className={classes.text}>
-            PlaceID: {props.place._id}
+            EventID: {props.event._id}
           </Typography>
         </CardContent>
         <CardActions>
@@ -157,13 +165,13 @@ export default function Place (props){
               </IconButton> <span>{values.comments.length}</span>
         </CardActions>
         <Divider/>
-        <Comments placeId={props.place._id} comments={values.comments} updateComments={updateComments}/>
+        <Comments eventId={props.event._id} comments={values.comments} updateComments={updateComments}/>
       </Card>
     )
 
 }
 
-Place.propTypes = {
-  place: PropTypes.object.isRequired,
+Event.propTypes = {
+  event: PropTypes.object.isRequired,
   onRemove: PropTypes.func.isRequired
 }

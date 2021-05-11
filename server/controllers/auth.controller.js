@@ -64,10 +64,10 @@ const hasAuthorization = (req, res, next) => {
 }
 
 const hasAdmin = (req, res, next) => {
-  const authorized = req.profile.account_type == "Admin"
-  if (!(authorized)) {
+  const isAdmin = req.profile && req.auth && req.profile.account_type == "Admin"
+  if (!(isAdmin)){
     return res.status('403').json({
-      error: "User is not authorized"
+      error: "User is not admin"
     })
   }
   next()

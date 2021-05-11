@@ -36,8 +36,8 @@ const Menu = withRouter(({history}) => (
             </Button>
           </Link>
           <Link to="/legal">
-              <Button style={isActive(history, "/legal")}>Legal
-              </Button>
+            <Button style={isActive(history, "/legal")}>Legal
+            </Button>
           </Link>
         </span>)
             }
@@ -46,21 +46,25 @@ const Menu = withRouter(({history}) => (
           <Link to={"/user/" + auth.isAuthenticated().user._id}>
               <Button style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>My Profile</Button>
           </Link>
-                    <Button color="inherit" onClick={() => {
-                        auth.clearJWT(() => history.push('/'))
-                    }}>Sign out</Button>
+                    <Link to="/events">
+                        <Button style={isActive(history, "/events")}>Events
+                        </Button>
+                    </Link>
                     <Link to="/places">
                         <Button style={isActive(history, "/places")}>Places
                         </Button>
                     </Link>
-                    <Link to="/Events">
-                        <Button style={isActive(history, "/Events")}>Events
+                    <Link to="/people">
+                        <Button style={isActive(history, "/people")}>People
                         </Button>
                     </Link>
                     <Link to="/legal">
                         <Button style={isActive(history, "/legal")}>Legal
                         </Button>
                     </Link>
+                    <Button color="inherit" onClick={() => {
+                        auth.clearJWT(() => history.push('/'))
+                    }}>Sign out</Button>
         </span>)
             }
         </Toolbar>

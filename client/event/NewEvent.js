@@ -11,9 +11,10 @@ import Avatar from '@material-ui/core/Avatar'
 import Icon from '@material-ui/core/Icon'
 import PropTypes from 'prop-types'
 import {makeStyles} from '@material-ui/core/styles'
-import {create} from './api-place.js'
+import {create} from './api-event.js'
 import IconButton from '@material-ui/core/IconButton'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
+//import TableDatePicker from "../DateManagement/DatePicker";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,14 +57,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function NewPlace (props){
+export default function NewEvent (props){
   const classes = useStyles()
+  const [date] = useState(new Date());
   const [values, setValues] = useState({
     name: '',
     description: '',
-    address: '',
-    isPrivate: '',
-    placeType: '',
+    date: '',
     photo: '',
     error: '',
     user: {}
@@ -72,36 +72,32 @@ export default function NewPlace (props){
   useEffect(() => {
     setValues({...values, user: auth.isAuthenticated().user})
   }, [])
-  const clickPlace = () => {
-    let placeData = new FormData()
-    placeData.append('name', values.name)
-    placeData.append('description', values.description)
-    placeData.append('address', values.address)
-    placeData.append('placeType', values.placeType)
-    placeData.append('isPrivate', values.isPrivate)
-    placeData.append('photo', values.photo)
+  const clickEvent = () => {
+    let eventData = new FormData()
+    eventData.append('name', values.name)
+    eventData.append('description', values.description)
+    eventData.append('date', values.date)
+    eventData.append('photo', values.photo)
     create({
       userId: jwt.user._id
     }, {
       t: jwt.token
-    }, placeData).then((data) => {
+    }, eventData).then((data) => {
       if (data.error) {
         setValues({...values, error: data.error})
       } else {
-        setValues({...values, name:'', description:'', address:'', isPrivate:'', placeType:'', photo: ''})
+        setValues({...values, name:'', description:'', date:'', photo: ''})
         props.addUpdate(data)
       }
     })
   }
-  const handleChange = name => place => {
+  const handleChange = name => event => {
     const value = name === 'photo'
-      ? place.target.files[0]
-      : place.target.value
+      ? event.target.files[0]
+      : event.target.value
     setValues({...values, [name]: value })
     setValues({...values, [description]: value })
-    setValues({...values, [address]: value})
-    setValues({...values, [isPrivate]: value})
-    setValues({...values, [placeType]: value})
+    setValues({...values, [date]: value})
   }
   const photoURL = values.user._id ?'/api/users/photo/'+ values.user._id : '/api/users/defaultphoto'
     return (<div className={classes.root}>
@@ -115,7 +111,7 @@ export default function NewPlace (props){
           />
       <CardContent className={classes.cardContent}>
         <TextField
-            placeholder="Name your place"
+            placeholder="Name your event"
             multiline
             rows="1"
             value={values.name}
@@ -124,16 +120,7 @@ export default function NewPlace (props){
             margin="normal"
         />
         <TextField
-            placeholder="Number Street, City, State Zip "
-            multiline
-            rows="3"
-            value={values.address}
-            onChange={handleChange('address')}
-            className={classes.textField}
-            margin="normal"
-        />
-        <TextField
-            placeholder="Tell us about your place..."
+            placeholder="Tell us about your event..."
             multiline
             rows="3"
             value={values.description}
@@ -142,35 +129,15 @@ export default function NewPlace (props){
             margin="normal"
         />
         <Typography component="p" className={classes.textField}>
-          Type:
+          Date/Time of event:
         </Typography>
-        <select
-            value={values.placeType}
-            onChange={handleChange('placeType')}
+        <TextField
+            id="date"
+            type="datetime-local"
             className={classes.textField}
-        >
-          <option value=""></option>
-          <option value="Residence">Residence</option>
-          <option value="Restaurant">Restaurant</option>
-          <option value="Park">Park</option>
-          <option value="Beach">Beach</option>
-          <option value="Online">Online</option>
-          <option value="Other">Other</option>
-        </select>
-        <br/>
-        <br/>
-        <Typography component="p" className={classes.textField}>
-          Non-Public/Public:
-        </Typography>
-        <select
-            value={values.isPrivate}
-            onChange={handleChange('isPrivate')}
-            className={classes.textField}
-        >
-          <option value=""></option>
-          <option value="Non-Public">Non-Public</option>
-          <option value="Public">Public</option>
-        </select>
+            value={values.date}
+            onChange={handleChange('date')}
+        />
         <br/>
         <input accept="image/*" onChange={handleChange('photo')} className={classes.input} id="icon-button-file" type="file" />
         <label htmlFor="icon-button-file">
@@ -185,14 +152,14 @@ export default function NewPlace (props){
         }
       </CardContent>
       <CardActions>
-        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPlace} className={classes.submit}>POST PLACE</Button>
+        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickEvent} className={classes.submit}>POST EVENT</Button>
       </CardActions>
     </Card>
   </div>)
 
 }
 
-NewPlace.propTypes = {
+NewEvent.propTypes = {
   addUpdate: PropTypes.func.isRequired
 }
 

@@ -9,21 +9,28 @@ import Profile from './user/Profile'
 import PrivateRoute from './auth/PrivateRoute'
 import Menu from './core/Menu'
 import Legal from './Legal/Legal'
-import Place from './place/Place'
-import Create from './create/create'
+import Event from './core/EventPage'
+//import EventInfo from './event/info'
+import Place from './core/PlacePage'
+//import PlaceInfo from './place/Info'
+import People from './user/FindPeople'
 
 const MainRouter = () => {
     return (<div>
       <Menu/>
       <Switch>
         <Route exact path="/" component={Home}/>
+        <Route path="/events" component={Event}/>
+        <Route path="/places" component={Place}/>
         <Route path="/users" component={Users}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/signin" component={Signin}/>
         <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
         <Route path="/user/:userId" component={Profile}/>
+        {/*<Route path="/events/:eventId" component={EventInfo}/>*/}
+        {/*<Route path="/places/:placeId" component={PlaceInfo}/>*/}
         <Route path="/legal" component={Legal}/>
-        <Route path="/create" component={Create}/>
+        <Route path="/people" component={People}/>
       </Switch>
     </div>)
 }

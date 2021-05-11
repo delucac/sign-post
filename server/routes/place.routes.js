@@ -22,13 +22,13 @@ router.route('/api/places/like')
 router.route('/api/places/unlike')
   .put(authCtrl.requireSignin, placeCtrl.unlike)
 
-router.route('/api/places/review')
-  .put(authCtrl.requireSignin, placeCtrl.review)
-router.route('/api/places/unreview')
-  .put(authCtrl.requireSignin, placeCtrl.unreview)
+router.route('/api/places/comment')
+  .put(authCtrl.requireSignin, placeCtrl.comment)
+router.route('/api/places/uncomment')
+  .put(authCtrl.requireSignin, placeCtrl.uncomment)
 
 router.route('/api/places/:placeId')
-  .delete(authCtrl.requireSignin, placeCtrl.isCreator, placeCtrl.remove)
+  .delete(authCtrl.requireSignin, placeCtrl.isPoster, placeCtrl.remove)
 
 router.param('userId', userCtrl.userByID)
 router.param('placeId', placeCtrl.placeByID)

@@ -86,9 +86,6 @@ export default function Home({history}){
                       <li>Hashed password (we do not store your passwords in readable forms)</li>
                       <li>Account creation time</li>
                     </ul>
-                    <ul>
-
-                    </ul>
                   </div>
                   <hr/>
                   <h2 id="LD">Location Data</h2>
@@ -126,17 +123,17 @@ export default function Home({history}){
                   <br/>
                   <h5>How we utilize your data.</h5>
                   <div>
-                    test
+                    We only share your data with OpenStreetMap for the purpose of showing mapping information.
                   </div>
                   <br/>
                   <h5>How you may utilize our services.</h5>
                   <div>
-                    test
+                    You may utilize our service to advertise events as places you own or have permission to host events at.
                   </div>
                   <br/>
                   <h5>Termination Policy</h5>
                   <div>
-                    test
+                    In the event that you are found to be abusing these services, creating excessive entries which serve no purpose (spam), or attempt to ruin the expereince for other users, we may chose to suspend your account.
                   </div>
                 </Typography>
                 <hr/>
@@ -160,7 +157,7 @@ export default function Home({history}){
                 </Typography>
                 <Typography>
                   <div>
-                    This project was created by Christopher B. DeLuca as a capstone project.
+                    This project was created by Christopher B. DeLuca as a capstone project. This project was based off a template from <a href="https://www.packtpub.com/web-development/full-stack-react-projects-second-edition">Full-Stack React Projects - Second Edition</a>
                   </div>
                 </Typography>
                 <hr/>

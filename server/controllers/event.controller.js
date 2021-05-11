@@ -1,7 +1,7 @@
+import Event from '../models/event.model'
 import errorHandler from './../helpers/dbErrorHandler'
 import formidable from 'formidable'
 import fs from 'fs'
-import Event from '../models/event.model'
 
 const create = (req, res, next) => {
   let form = new formidable.IncomingForm()
@@ -13,10 +13,10 @@ const create = (req, res, next) => {
       })
     }
     let event = new Event(fields)
-    event.createdBy = req.profile
+    event.postedBy= req.profile
     if(files.photo){
-      post.photo.data = fs.readFileSync(files.photo.path)
-      post.photo.contentType = files.photo.type
+      event.photo.data = fs.readFileSync(files.photo.path)
+      event.photo.contentType = files.photo.type
     }
     try {
       let result = await event.save()
@@ -31,10 +31,10 @@ const create = (req, res, next) => {
 
 const eventByID = async (req, res, next, id) => {
   try{
-    let event = await Event.findById(id).populate('createdBy', '_id name').exec()
+    let event = await Event.findById(id).populate('postedBy', '_id name').exec()
     if (!event)
       return res.status('400').json({
-        error: "Event not found"
+        error: "Place not found"
       })
     req.event = event
     next()
@@ -47,9 +47,9 @@ const eventByID = async (req, res, next, id) => {
 
 const listByUser = async (req, res) => {
   try{
-    let events = await Event.find({createdBy: req.profile._id})
-                          .populate('comments.createdBy', '_id name')
-                          .populate('createdBy', '_id name')
+    let events = await Event.find({postedBy: req.profile._id})
+                          .populate('comments.postedBy', '_id name')
+                          .populate('postedBy', '_id name')
                           .sort('-created')
                           .exec()
     res.json(events)
@@ -64,12 +64,12 @@ const listNewsFeed = async (req, res) => {
   let following = req.profile.following
   following.push(req.profile._id)
   try{
-    let events = await Event.find({createdBy: { $in : req.profile.following } })
-                          .populate('comments.createdBy', '_id name')
-                          .populate('createdBy', '_id name')
+    let events = await Event.find({postedBy: { $in : req.profile.following } })
+                          .populate('comments.postedBy', '_id name')
+                          .populate('postedBy', '_id name')
                           .sort('-created')
                           .exec()
-    res.json(posts)
+    res.json(events)
   }catch(err){
     return res.status(400).json({
       error: errorHandler.getErrorMessage(err)
@@ -96,7 +96,7 @@ const photo = (req, res, next) => {
 
 const like = async (req, res) => {
   try{
-    let result = await Event.findByIdAndUpdate(req.event.eventId, {$push: {likes: req.body.userId}}, {new: true})
+    let result = await Event.findByIdAndUpdate(req.body.eventId, {$push: {likes: req.body.userId}}, {new: true})
     res.json(result)
   }catch(err){
       return res.status(400).json({
@@ -107,7 +107,7 @@ const like = async (req, res) => {
 
 const unlike = async (req, res) => {
   try{
-    let result = await Event.findByIdAndUpdate(req.event.eventId, {$pull: {likes: req.body.userId}}, {new: true})
+    let result = await Event.findByIdAndUpdate(req.body.eventId, {$pull: {likes: req.body.userId}}, {new: true})
     res.json(result)
   }catch(err){
     return res.status(400).json({
@@ -118,11 +118,11 @@ const unlike = async (req, res) => {
 
 const comment = async (req, res) => {
   let comment = req.body.comment
-  comment.createdBy = req.body.userId
+  comment.postedBy = req.body.userId
   try{
     let result = await Event.findByIdAndUpdate(req.body.eventId, {$push: {comments: comment}}, {new: true})
-                            .populate('comments.createdBy', '_id name')
-                            .populate('createdBy', '_id name')
+                            .populate('comments.postedBy', '_id name')
+                            .populate('postedBy', '_id name')
                             .exec()
     res.json(result)
   }catch(err){
@@ -135,8 +135,8 @@ const uncomment = async (req, res) => {
   let comment = req.body.comment
   try{
     let result = await Event.findByIdAndUpdate(req.body.eventId, {$pull: {comments: {_id: comment._id}}}, {new: true})
-                          .populate('comments.createdBy', '_id name')
-                          .populate('createdBy', '_id name')
+                          .populate('comments.postedBy', '_id name')
+                          .populate('postedBy', '_id name')
                           .exec()
     res.json(result)
   }catch(err){
@@ -146,9 +146,9 @@ const uncomment = async (req, res) => {
   }
 }
 
-const isCreator = (req, res, next) => {
-  let isCreator = req.event && req.auth && req.post.createdBy._id == req.auth._id
-  if(!isCreator){
+const isPoster = (req, res, next) => {
+  let isPoster = req.event && req.auth && req.event.postedBy._id == req.auth._id
+  if(!isPoster){
     return res.status('403').json({
       error: "User is not authorized"
     })
@@ -167,5 +167,5 @@ export default {
   unlike,
   comment,
   uncomment,
-  isCreator
+  isPoster
 }

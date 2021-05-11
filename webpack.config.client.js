@@ -27,9 +27,13 @@ const config = {
             {
                 test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
                 use: 'file-loader'
+            },
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
             }
         ]
-    },  
+    },
     plugins: [
           new webpack.HotModuleReplacementPlugin(),
           new webpack.NoEmitOnErrorsPlugin()

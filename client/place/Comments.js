@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Icon from '@material-ui/core/Icon'
 import PropTypes from 'prop-types'
 import {makeStyles} from '@material-ui/core/styles'
-import {comment, uncomment} from './api-event.js'
+import {comment, uncomment} from './api-place.js'
 import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
@@ -42,17 +42,17 @@ export default function Comments (props) {
   const classes = useStyles()
   const [text, setText] = useState('')
   const jwt = auth.isAuthenticated()
-  const handleChange = event => {
-    setText(event.target.value)
+  const handleChange = place => {
+    setText(place.target.value)
   }
-  const addComment = (event) => {
-    if(event.keyCode == 13 && event.target.value){
-      event.preventDefault()
+  const addComment = (place) => {
+    if(place.keyCode == 13 && place.target.value){
+      place.prplaceDefault()
       comment({
         userId: jwt.user._id
       }, {
         t: jwt.token
-      }, props.eventId, {text: text}).then((data) => {
+      }, props.placeId, {text: text}).then((data) => {
         if (data.error) {
           console.log(data.error)
         } else {
@@ -63,12 +63,12 @@ export default function Comments (props) {
     }
   }
 
-  const deleteComment = comment => event => {
+  const deleteComment = comment => place => {
     uncomment({
       userId: jwt.user._id
     }, {
       t: jwt.token
-    }, props.eventId, comment).then((data) => {
+    }, props.placeId, comment).then((data) => {
       if (data.error) {
         console.log(data.error)
       } else {
@@ -121,7 +121,7 @@ export default function Comments (props) {
 }
 
 Comments.propTypes = {
-  eventId: PropTypes.string.isRequired,
+  placeId: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,
   updateComments: PropTypes.func.isRequired
 }

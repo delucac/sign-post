@@ -28,7 +28,7 @@ router.route('/api/events/uncomment')
   .put(authCtrl.requireSignin, eventCtrl.uncomment)
 
 router.route('/api/events/:eventId')
-  .delete(authCtrl.requireSignin, eventCtrl.isCreator, eventCtrl.remove)
+  .delete(authCtrl.requireSignin, eventCtrl.isPoster, eventCtrl.remove)
 
 router.param('userId', userCtrl.userByID)
 router.param('eventId', eventCtrl.eventByID)
