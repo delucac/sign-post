@@ -15,8 +15,8 @@ import Divider from '@material-ui/core/Divider'
 import PropTypes from 'prop-types'
 import {makeStyles} from '@material-ui/core/styles'
 import {Link} from 'react-router-dom'
-import {remove, like, unlike} from './api-post.js'
-import Comments from './Comments'
+import {remove, like, unlike} from './api-place.js'
+import Reviews from './Reviews'
 import {DeleteForever} from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Post (props){
+export default function Place (props){
   const classes = useStyles()
   const jwt = auth.isAuthenticated()
   const checkLike = (likes) => {
@@ -58,9 +58,9 @@ export default function Post (props){
     return match
   }
   const [values, setValues] = useState({
-    like: checkLike(props.post.likes),
-    likes: props.post.likes.length,
-    comments: props.post.comments
+    like: checkLike(props.place.likes),
+    likes: props.place.likes.length,
+    comments: props.place.comments
   })
   
   // useEffect(() => {
@@ -75,7 +75,7 @@ export default function Post (props){
       userId: jwt.user._id
     }, {
       t: jwt.token
-    }, props.post._id).then((data) => {
+    }, props.place._id).then((data) => {
       if (data.error) {
         console.log(data.error)
       } else {
@@ -84,34 +84,20 @@ export default function Post (props){
     })
   }
 
-  const updateComments = (comments) => {
-    setValues({...values, comments: comments})
+  const updateReviews = (reviews) => {
+    setValues({...values, reviews: reviews})
   }
 
-  const deletePost = () => {   
+  const deletePlace = () => {
     remove({
-      postId: props.post._id
+      placeId: props.place._id
     }, {
       t: jwt.token
     }).then((data) => {
       if (data.error) {
         console.log(data.error)
       } else {
-        props.onRemove(props.post)
-      }
-    })
-  }
-
-  const deletePostAdmin = () => {
-    remove({
-      postId: props.post._id
-    }, {
-      t: jwt.token
-    }).then((data) => {
-      if (data.error) {
-        console.log(data.error)
-      } else {
-        props.onRemove(props.post)
+        props.onRemove(props.place)
       }
     })
   }
@@ -120,35 +106,34 @@ export default function Post (props){
       <Card className={classes.card}>
         <CardHeader
             avatar={
-              <Avatar src={'/api/users/photo/'+props.post.postedBy._id}/>
+              <Avatar src={'/api/users/photo/'+props.place.createdBy._id}/>
             }
-
             //Attempt at implementing admin delete
-
-            action={auth.hasAdmin &&
-            <IconButton onClick={deletePostAdmin}>
+            /*
+            action={"Admin" === auth.isAuthenticated().account_type &&
+            <IconButton onClick={deletePost}>
               <DeleteForever/>
             </IconButton>
             }
-
-            action={props.post.postedBy._id === auth.isAuthenticated().user._id &&
-              <IconButton onClick={deletePost}>
+            */
+            action={props.place.createdBy._id === auth.isAuthenticated().user._id &&
+              <IconButton onClick={deletePlace}>
                 <DeleteIcon/>
               </IconButton>
             }
-            title={<Link to={"/user/" + props.post.postedBy._id}>{props.post.postedBy.name}</Link>}
-            subheader={(new Date(props.post.created)).toDateString()}
+            title={<Link to={"/user/" + props.place.createdBy._id}>{props.place.createdBy.name}</Link>}
+            subheader={(new Date(props.place.created)).toDateString()}
             className={classes.cardHeader}
           />
         <CardContent className={classes.cardContent}>
           <Typography component="p" className={classes.text}>
-            {props.post.text}
+            {props.place.text}
           </Typography>
-          {props.post.photo &&
+          {props.place.photo &&
             (<div className={classes.photo}>
               <img
                 className={classes.media}
-                src={'/api/posts/photo/'+props.post._id}
+                src={'/api/posts/photo/'+props.place._id}
                 />
             </div>)}
         </CardContent>
@@ -162,16 +147,16 @@ export default function Post (props){
               </IconButton> } <span>{values.likes}</span>
               <IconButton className={classes.button} aria-label="Comment" color="secondary">
                 <CommentIcon/>
-              </IconButton> <span>{values.comments.length}</span>
+              </IconButton> <span>{values.reviews.length}</span>
         </CardActions>
         <Divider/>
-        <Comments postId={props.post._id} comments={values.comments} updateComments={updateComments}/>
+        <Reviews placeId={props.place._id} reviews={values.reviews} updateReviews={updateReviews}/>
       </Card>
     )
   
 }
 
-Post.propTypes = {
-  post: PropTypes.object.isRequired,
+Place.propTypes = {
+  place: PropTypes.object.isRequired,
   onRemove: PropTypes.func.isRequired
 }

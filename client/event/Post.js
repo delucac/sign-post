@@ -102,35 +102,20 @@ export default function Post (props){
     })
   }
 
-  const deletePostAdmin = () => {
-    remove({
-      postId: props.post._id
-    }, {
-      t: jwt.token
-    }).then((data) => {
-      if (data.error) {
-        console.log(data.error)
-      } else {
-        props.onRemove(props.post)
-      }
-    })
-  }
-
     return (
       <Card className={classes.card}>
         <CardHeader
             avatar={
               <Avatar src={'/api/users/photo/'+props.post.postedBy._id}/>
             }
-
             //Attempt at implementing admin delete
-
-            action={auth.hasAdmin &&
-            <IconButton onClick={deletePostAdmin}>
+            /*
+            action={"Admin" === auth.isAuthenticated().account_type &&
+            <IconButton onClick={deletePost}>
               <DeleteForever/>
             </IconButton>
             }
-
+            */
             action={props.post.postedBy._id === auth.isAuthenticated().user._id &&
               <IconButton onClick={deletePost}>
                 <DeleteIcon/>
