@@ -7,9 +7,12 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import auth from './../auth/auth-helper'
 import FindPeople from './../user/FindPeople'
-import Newsfeed from '../place/Newsfeed'
+import Newsfeed from '../agents/Newsfeed'
 import Sign from './../assets/images/blank-signpost.png'
-import {BrowserView} from "react-device-detect";
+import {
+  BrowserView,
+  MobileView
+} from "react-device-detect";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -74,18 +77,21 @@ export default function Home({history}){
             </Grid>
           </Grid>
         }
+        <MobileView>
+          Please use a desktop device for this page.
+        </MobileView>
+        <BrowserView>
         {defaultPage &&
           <Grid container spacing={8}>
             <Grid item xs={8} sm={7}>
               <Newsfeed/>
             </Grid>
             <Grid item xs={6} sm={5}>
-              <BrowserView>
-                <FindPeople/>
-              </BrowserView>
+              <FindPeople/>
             </Grid>
           </Grid>
         }
+        </BrowserView>
       </div>
     )
 }

@@ -7,6 +7,7 @@ import auth from './../auth/auth-helper'
 import PlaceList from './PlaceList'
 import {listNewsFeed} from './api-place.js'
 import NewPlace from './NewPlace'
+import {BrowserView} from "react-device-detect";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -67,7 +68,9 @@ export default function Newsfeed () {
           Newsfeed
         </Typography>
         <Divider/>
-        <NewPlace addUpdate={addPlace}/>
+        <BrowserView>
+          <NewPlace addUpdate={addPlace}/>
+        </BrowserView>
         <Divider/>
         <PlaceList removeUpdate={removePlace} places={places}/>
       </Card>

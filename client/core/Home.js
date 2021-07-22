@@ -9,6 +9,7 @@ import auth from './../auth/auth-helper'
 import FindPeople from './../user/FindPeople'
 import Newsfeed from './../post/Newsfeed'
 import Sign from './../assets/images/blank-signpost.png'
+import {BrowserView} from "react-device-detect";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     borderBottom: '1px solid #d0d0d0',
     '& a':{
       color: '#3f4771'
-    } 
+    }
   }
 }))
 
@@ -79,7 +80,9 @@ export default function Home({history}){
               <Newsfeed/>
             </Grid>
             <Grid item xs={6} sm={5}>
-              <FindPeople/>
+              <BrowserView>
+                <FindPeople/>
+              </BrowserView>
             </Grid>
           </Grid>
         }

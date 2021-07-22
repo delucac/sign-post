@@ -14,6 +14,7 @@ import Event from './core/EventPage'
 import Place from './core/PlacePage'
 //import PlaceInfo from './place/Info'
 import People from './user/FindPeople'
+//import Agent from './core/AgentPage'
 
 const MainRouter = () => {
     return (<div>

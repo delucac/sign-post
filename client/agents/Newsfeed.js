@@ -4,10 +4,9 @@ import Card from '@material-ui/core/Card'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import auth from './../auth/auth-helper'
-import EventList from './EventList'
-import {listNewsFeed} from './api-event.js'
-import NewEvent from './NewEvent'
-import {BrowserView} from "react-device-detect";
+import AgentList from './AgentList'
+import {listNewsFeed} from './api-agent.js'
+import NewAgent from './NewAgent'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -26,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 }))
 export default function Newsfeed () {
   const classes = useStyles()
-  const [events, setEvents] = useState([])
+  const [agents, setAgents] = useState([])
   const jwt = auth.isAuthenticated()
 
   useEffect(() => {
@@ -41,7 +40,7 @@ export default function Newsfeed () {
       if (data.error) {
         console.log(data.error)
       } else {
-        setEvents(data)
+        setAgents(data)
       }
     })
     return function cleanup(){
@@ -50,16 +49,16 @@ export default function Newsfeed () {
 
   }, [])
 
-  const addEvent = (event) => {
-    const updatedEvents = [...events]
-    updatedEvents.unshift(event)
-    setEvents(updatedEvents)
+  const addAgent = (agent) => {
+    const updatedAgents = [...agents]
+    updatedAgents.unshift(agent)
+    setAgents(updatedAgents)
   }
-  const removeEvent = (event) => {
-    const updatedEvents = [...events]
-    const index = updatedEvents.indexOf(event)
-    updatedEvents.splice(index, 1)
-    setEvents(updatedEvents)
+  const removeAgent = (agent) => {
+    const updatedAgents = [...agents]
+    const index = updatedAgents.indexOf(agent)
+    updatedAgents.splice(index, 1)
+    setAgents(updatedAgents)
   }
 
     return (
@@ -68,11 +67,9 @@ export default function Newsfeed () {
           Newsfeed
         </Typography>
         <Divider/>
-        <BrowserView>
-          <NewEvent addUpdate={addEvent}/>
-        </BrowserView>
+        <NewAgent addUpdate={addAgent}/>
         <Divider/>
-        <EventList removeUpdate={removeEvent} events={events}/>
+        <AgentList removeUpdate={removeAgent} agents={agents}/>
       </Card>
     )
 }

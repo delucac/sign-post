@@ -7,6 +7,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import Button from '@material-ui/core/Button'
 import auth from './../auth/auth-helper'
 import {Link, withRouter} from 'react-router-dom'
+import {MobileView} from "react-device-detect"
 
 const isActive = (history, path) => {
     if (history.location.pathname == path)
@@ -54,10 +55,12 @@ const Menu = withRouter(({history}) => (
                         <Button style={isActive(history, "/places")}>Places
                         </Button>
                     </Link>
-                    <Link to="/people">
-                        <Button style={isActive(history, "/people")}>People
-                        </Button>
-                    </Link>
+                    <MobileView>
+                        <Link to="/people">
+                            <Button style={isActive(history, "/people")}>People
+                            </Button>
+                        </Link>
+                    </MobileView>
                     <Link to="/legal">
                         <Button style={isActive(history, "/legal")}>Legal
                         </Button>

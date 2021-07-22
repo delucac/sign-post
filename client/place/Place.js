@@ -139,10 +139,12 @@ export default function Place (props){
                 alt="Place Photo"
                 />
             </div>)}
+          {/*
           <hr/>
           <Typography component="p" className={classes.text}>
             PlaceID: {props.place._id}
           </Typography>
+          */}
         </CardContent>
         <CardActions>
           { values.like

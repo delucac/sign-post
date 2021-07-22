@@ -130,10 +130,12 @@ export default function Event (props){
         <CardContent className={classes.cardContent}>
           <Typography component="p" className={classes.text}>
             Name: {props.event.name}
-          </Typography>
-          <hr/>
-          <Typography component="p" className={classes.text}>
-            Date/Time: {moment(props.event.date).format('LLLL')}.
+            <br/>
+            Date/Time: {moment(props.event.date).format('LLLL')}
+            {/*
+            <br/>
+            Location: {props.event.place}
+            */}
           </Typography>
           <hr/>
           <Typography component="p" className={classes.text}>
@@ -147,10 +149,12 @@ export default function Event (props){
                 alt="Event Photo"
                 />
             </div>)}
+          {/*
           <hr/>
           <Typography component="p" className={classes.text}>
             EventID: {props.event._id}
           </Typography>
+          */}
         </CardContent>
         <CardActions>
           { values.like

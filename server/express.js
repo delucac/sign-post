@@ -11,6 +11,7 @@ import authRoutes from './routes/auth.routes'
 import postRoutes from './routes/post.routes'
 import eventRoutes from './routes/event.routes'
 import placeRoutes from './routes/place.routes'
+import agentRoutes from './routes/agent.routes'
 
 // modules for server side rendering
 import React from 'react'
@@ -49,6 +50,7 @@ app.use('/', authRoutes)
 app.use('/', postRoutes)
 app.use('/', eventRoutes)
 app.use('/', placeRoutes)
+app.use('/', agentRoutes)
 
 app.get('*', (req, res) => {
   const sheets = new ServerStyleSheets()
