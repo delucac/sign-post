@@ -15,7 +15,6 @@ import {findPeople, follow} from './api-user.js'
 import auth from './../auth/auth-helper'
 import Snackbar from '@material-ui/core/Snackbar'
 import ViewIcon from '@material-ui/icons/Visibility'
-import {BrowserView, MobileView} from "react-device-detect"
 
 const useStyles = makeStyles(theme => ({
   root: theme.mixins.gutters({
@@ -89,10 +88,6 @@ export default function FindPeople() {
     setValues({...values, open: false })
   }
     return (<div>
-      <BrowserView>
-        Please use a mobile browser for this page.
-      </BrowserView>
-      <MobileView>
       <Paper className={classes.root} elevation={4}>
 
         <Typography type="title" className={classes.title}>
@@ -132,6 +127,5 @@ export default function FindPeople() {
           autoHideDuration={6000}
           message={<span className={classes.snack}>{values.followMessage}</span>}
       />
-    </MobileView>
     </div>)
 }
